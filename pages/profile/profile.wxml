@@ -1,0 +1,152 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 顶部统计 -->
+  <view class="stats-header">
+    <text class="stats-title">📊 我的学习</text>
+    <view class="stats-grid">
+      <view class="stat-card">
+        <text class="stat-num blue">{{totalMastered}}</text>
+        <text class="stat-label">已掌握单词</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-num orange">{{todayCount}}</text>
+        <text class="stat-label">今日学习</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-num green">{{totalStudyDays}}</text>
+        <text class="stat-label">累计天数</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-num red">{{wrongCount}}</text>
+        <text class="stat-label">待复习错词</text>
+      </view>
+    </view>
+
+    <!-- 总体进度 -->
+    <view class="total-progress">
+      <view class="progress-label-row">
+        <text class="progress-label">总掌握率</text>
+        <text class="progress-pct">{{totalMasteredPct}}%</text>
+      </view>
+      <progress percent="{{totalMastered / totalWords * 100}}" stroke-width="16"
+        activeColor="#4A90D9" backgroundColor="rgba(255,255,255,0.3)" active border-radius="10" />
+    </view>
+  </view>
+
+  <!-- 各级别进度 -->
+  <view class="section-card">
+    <text class="section-title">各级别掌握情况</text>
+    <view class="level-list">
+      <view class="level-row" wx:for="{{levelStats}}" wx:key="key">
+        <text class="level-emoji-sm">{{item.emoji}}</text>
+        <view class="level-detail">
+          <view class="level-row-top">
+            <text class="level-name-sm">{{item.name}}</text>
+            <text class="level-count-sm" style="color: {{item.color}}">{{item.mastered}}/{{item.total}} ({{item.progress}}%)</text>
+          </view>
+          <progress percent="{{item.progress}}" stroke-width="10"
+            activeColor="{{item.color}}" backgroundColor="#F0F0F0" active border-radius="6" />
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设置 -->
+  <view class="section-card">
+    <text class="section-title">设置</text>
+    <view class="setting-row">
+      <view class="setting-left">
+        <text class="setting-icon">🔊</text>
+        <text class="setting-name">播放发音</text>
+      </view>
+      <switch checked="{{soundEnabled}}" bindchange="toggleSound" color="#4A90D9" />
+    </view>
+    <view class="setting-row" bindtap="openParentEntry">
+      <view class="setting-left">
+        <text class="setting-icon">👨‍👩‍👧</text>
+        <text class="setting-name">家长模式</text>
+      </view>
+      <text class="setting-arrow {{parentMode ? 'mode-on' : ''}}">
+        {{parentMode ? '已开启 ✓' : '未开启 ›'}}
+      </text>
+    </view>
+  </view>
+
+  <!-- 家长模式操作（已解锁） -->
+  <view class="section-card parent-panel" wx:if="{{parentMode}}">
+    <view class="parent-header">
+      <text class="section-title">👨‍👩‍👧 家长设置</text>
+      <text class="exit-btn" bindtap="exitParentMode">退出</text>
+    </view>
+    <view class="parent-btns">
+      <button class="parent-btn reset-btn" bindtap="resetStudyRecords">
+        🔄 重置学习记录
+      </button>
+      <button class="parent-btn danger-btn" bindtap="resetAllProgress">
+        ⚠️ 清空全部数据
+      </button>
+      <button class="parent-btn pwd-btn" bindtap="changePwd">
+        🔐 修改密码
+      </button>
+    </view>
+  </view>
+
+  <!-- 关于 -->
+  <view class="about-card">
+    <text class="about-text">小学英语220高频词小助手 MVP v1.0</text>
+    <text class="about-sub">全部数据存储在本地，不上传任何信息</text>
+  </view>
+</view>
+
+<!-- 家长密码验证弹层 -->
+<view class="modal-overlay" wx:if="{{showParentInput}}" bindtap="closeParentInput">
+  <view class="modal-box" catchtap="noop">
+    <text class="modal-title">🔐 家长验证</text>
+    <text class="modal-desc">请输入家长密码以解锁设置</text>
+    <input 
+      class="pwd-input" 
+      type="number"
+      password
+      placeholder="请输入密码"
+      value="{{parentPwdInput}}"
+      bindinput="onPwdInput"
+      maxlength="8"
+    />
+    <text class="pwd-error" wx:if="{{parentPwdError}}">{{parentPwdError}}</text>
+    <view class="modal-btns">
+      <button class="modal-btn cancel-btn" bindtap="closeParentInput">取消</button>
+      <button class="modal-btn confirm-btn" bindtap="verifyParent">确认</button>
+    </view>
+  </view>
+</view>
+
+<!-- 设置/修改密码弹层 -->
+<view class="modal-overlay" wx:if="{{showSetPwd}}" bindtap="cancelSetPwd">
+  <view class="modal-box" catchtap="noop">
+    <text class="modal-title">🔐 设置家长密码</text>
+    <text class="modal-desc">设置密码后可以管理孩子的学习数据</text>
+    <input 
+      class="pwd-input"
+      type="number"
+      password
+      placeholder="设置密码（4-8位数字）"
+      value="{{newPwd}}"
+      bindinput="onNewPwdInput"
+      maxlength="8"
+    />
+    <input 
+      class="pwd-input"
+      type="number"
+      password
+      placeholder="再次输入确认"
+      value="{{confirmPwd}}"
+      bindinput="onConfirmPwdInput"
+      maxlength="8"
+      style="margin-top: 16rpx;"
+    />
+    <view class="modal-btns">
+      <button class="modal-btn cancel-btn" bindtap="cancelSetPwd">取消</button>
+      <button class="modal-btn confirm-btn" bindtap="savePwd">保存</button>
+    </view>
+  </view>
+</view>

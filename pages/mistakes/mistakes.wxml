@@ -1,0 +1,59 @@
+<!--pages/mistakes/mistakes.wxml-->
+<view class="container">
+  <!-- 页头 -->
+  <view class="page-header">
+    <view class="header-info">
+      <text class="header-title">📝 错题本</text>
+      <text class="header-count" wx:if="{{!isEmpty}}">共 {{wrongWordList.length}} 个需要复习</text>
+    </view>
+    <view class="clear-btn" bindtap="clearAll" wx:if="{{!isEmpty}}">清空</view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-btns" wx:if="{{!isEmpty}}">
+    <button class="review-btn flashcard-btn" bindtap="reviewAllMistakes">
+      🃏 闪卡复习错题
+    </button>
+    <button class="review-btn spell-btn" bindtap="spellMistakes">
+      ✏️ 默写错题
+    </button>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{isEmpty}}">
+    <text class="empty-emoji">🎉</text>
+    <text class="empty-title">错题本是空的！</text>
+    <text class="empty-desc">你的拼写很棒，错题本里没有单词。继续保持！</text>
+  </view>
+
+  <!-- 错题列表 -->
+  <view class="word-list" wx:if="{{!isEmpty}}">
+    <view 
+      class="word-item"
+      wx:for="{{wrongWordList}}"
+      wx:key="id"
+    >
+      <view class="word-main">
+        <view class="word-left">
+          <view class="level-dot" style="background: {{item.levelColor}}"></view>
+          <view class="word-info">
+            <text class="word-text">{{item.word}}</text>
+            <text class="phonetic-text">{{item.phonetic}}</text>
+          </view>
+        </view>
+        <view class="word-right">
+          <text class="meaning-text">{{item.meaning}}</text>
+          <text class="level-label" style="color: {{item.levelColor}}">{{item.levelName}}</text>
+        </view>
+      </view>
+      <view class="word-actions">
+        <view class="action-sound" catchtap="playSound" data-word="{{item.word}}">
+          🔊 发音
+        </view>
+        <view class="action-mastered" catchtap="markMastered" data-id="{{item.id}}">
+          ✓ 已掌握
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

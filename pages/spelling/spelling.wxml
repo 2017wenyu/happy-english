@@ -1,0 +1,127 @@
+<!--pages/spelling/spelling.wxml-->
+<view class="container">
+  <!-- 顶部状态栏 -->
+  <view class="top-bar">
+    <view class="back-btn" bindtap="goBack">‹ 返回</view>
+    <view class="score-row">
+      <view class="score-item correct">
+        <text class="score-num">{{correctCount}}</text>
+        <text class="score-label">正确</text>
+      </view>
+      <view class="combo-badge" wx:if="{{combo >= 3}}">
+        <text>🔥 {{combo}}连对！</text>
+      </view>
+      <view class="score-item wrong">
+        <text class="score-num">{{wrongCount}}</text>
+        <text class="score-label">错误</text>
+      </view>
+    </view>
+    <view class="progress-text">{{currentIndex + 1}} / {{totalCount}}</view>
+  </view>
+
+  <!-- 主内容区（未结束） -->
+  <block wx:if="{{!isFinished}}">
+    <!-- 题目卡片 -->
+    <view class="question-card">
+      <!-- 发音大按钮 -->
+      <view class="play-area" bindtap="replaySound">
+        <view class="play-btn">
+          <text class="play-icon">🔊</text>
+        </view>
+        <text class="play-label">点击再次播放发音</text>
+      </view>
+
+      <!-- 翻译提示 -->
+      <view class="meaning-row">
+        <text class="meaning-text">{{currentWord.meaning}}</text>
+      </view>
+
+      <!-- 音标提示 -->
+      <view class="phonetic-row" bindtap="togglePhonetic">
+        <text class="phonetic-toggle">{{showPhonetic ? currentWord.phonetic : '🔍 显示音标'}} </text>
+      </view>
+
+      <!-- 首字母提示 -->
+      <view class="hint-row" wx:if="{{showHint}}">
+        <text class="hint-text">提示：{{hint}}</text>
+      </view>
+
+      <!-- 长度提示 -->
+      <view class="length-hint">
+        <text class="length-text">单词共 {{currentWord.word.length}} 个字母</text>
+        <view class="letter-dots">
+          <view 
+            class="letter-dot"
+            wx:for="{{currentWord.word}}"
+            wx:key="index">
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 答案结果显示 -->
+    <view class="result-banner result-correct" wx:if="{{result === 'correct'}}">
+      <text class="result-icon">🎉</text>
+      <view class="result-info">
+        <text class="result-title">太棒了，拼写正确！</text>
+        <text class="result-word">{{currentWord.word}}</text>
+        <text class="result-meaning">{{currentWord.meaning}}</text>
+      </view>
+    </view>
+
+    <view class="result-banner result-wrong" wx:if="{{result === 'wrong'}}">
+      <text class="result-icon">💪</text>
+      <view class="result-info">
+        <text class="result-title">加油，正确拼写是：</text>
+        <text class="result-word-wrong">{{currentWord.word}}</text>
+        <text class="result-meaning">{{currentWord.meaning}}</text>
+      </view>
+    </view>
+
+    <!-- 输入区域 - 纵向排列 -->
+    <view class="input-area" wx:if="{{!result}}">
+      <button class="helper-btn hint-btn" bindtap="showHintLetter" wx:if="{{!showHint}}">
+        💡 首字母
+      </button>
+      <input
+        class="spell-input"
+        placeholder="输入单词..."
+        value="{{userInput}}"
+        bindinput="onInput"
+        confirm-type="done"
+        bindconfirm="submitAnswer"
+        focus
+        maxlength="30"
+        auto-focus
+      />
+      <button class="submit-btn" bindtap="submitAnswer">确认</button>
+      <button class="helper-btn skip-btn" bindtap="skipWord">
+        ⏭ 跳过
+      </button>
+    </view>
+  </block>
+
+  <!-- 完成页面 -->
+  <view class="finished-panel" wx:if="{{isFinished}}">
+    <text class="finished-emoji">{{correctCount >= totalCount * 0.8 ? '🏆' : '📝'}}</text>
+    <text class="finished-title">本轮默写完成！</text>
+    <view class="result-stats">
+      <view class="stat-item stat-correct">
+        <text class="stat-num">{{correctCount}}</text>
+        <text class="stat-label">正确</text>
+      </view>
+      <view class="stat-divider">/</view>
+      <view class="stat-item stat-wrong">
+        <text class="stat-num">{{wrongCount}}</text>
+        <text class="stat-label">错误</text>
+      </view>
+    </view>
+    <text class="finished-sub">
+      {{correctCount >= totalCount * 0.8 ? '优秀！继续保持～' : '错题已加入错题本，多复习几遍吧！'}}
+    </text>
+    <view class="finished-btns">
+      <button class="btn-primary" bindtap="restart">再练一次</button>
+      <button class="btn-ghost" bindtap="goBack" style="margin-top:20rpx">返回首页</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,84 @@
+<!--pages/flashcard/flashcard.wxml-->
+<view class="container">
+  <!-- 顶部信息栏 -->
+  <view class="top-bar">
+    <view class="back-btn" bindtap="goBack">‹ 返回</view>
+    <view class="level-tag">{{levelName}}</view>
+    <view class="progress-text">{{currentIndex + 1}} / {{totalCount}}</view>
+  </view>
+
+  <!-- 掌握进度 -->
+  <view class="mastered-bar">
+    <text class="mastered-text">已掌握 {{masteredCount}} 个</text>
+    <progress percent="{{masteredCount / totalCount * 100}}" stroke-width="10"
+      activeColor="#52C41A" backgroundColor="#E8F5E9" active border-radius="6" 
+      style="flex:1; margin-left: 16rpx;" />
+  </view>
+
+  <!-- 卡片区域（未完成） -->
+  <block wx:if="{{!isFinished}}">
+    <view class="card-area" 
+      bindtouchstart="touchStart" 
+      bindtouchend="touchEnd"
+      bindtap="toggleMeaning">
+      
+      <view class="word-card {{currentWord.isMastered ? 'mastered-card' : ''}}">
+        <!-- 掌握状态角标 -->
+        <view class="mastered-badge" wx:if="{{currentWord.isMastered}}">✓ 已掌握</view>
+        
+        <!-- 单词 -->
+        <text class="word-text">{{currentWord.word}}</text>
+        
+        <!-- 音标 -->
+        <text class="phonetic-text">{{currentWord.phonetic}}</text>
+        
+        <!-- 发音按钮 -->
+        <view class="sound-btn" catchtap="playSound">
+          <text class="sound-icon">🔊</text>
+          <text class="sound-label">点击发音</text>
+        </view>
+        
+        <!-- 释义（翻转后显示） -->
+        <view class="meaning-area {{showMeaning ? 'show' : 'hide'}}">
+          <view class="divider"></view>
+          <text class="meaning-text">{{currentWord.meaning}}</text>
+        </view>
+        
+        <!-- 提示翻转 -->
+        <text class="flip-hint" wx:if="{{!showMeaning}}">点击卡片查看释义 👆</text>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-btns">
+      <button class="action-btn unmast-btn" catchtap="markUnmastered">
+        <text class="btn-icon">😅</text>
+        <text class="btn-text">还不会</text>
+      </button>
+      <button class="action-btn nav-btn" catchtap="prevCard">
+        <text class="btn-icon">←</text>
+      </button>
+      <button class="action-btn nav-btn" catchtap="nextCard">
+        <text class="btn-icon">→</text>
+      </button>
+      <button class="action-btn mast-btn" catchtap="markMastered">
+        <text class="btn-icon">😄</text>
+        <text class="btn-text">认识了！</text>
+      </button>
+    </view>
+
+    <!-- 滑动提示 -->
+    <text class="swipe-hint">← 左右滑动也能切换卡片 →</text>
+  </block>
+
+  <!-- 完成页面 -->
+  <view class="finished-panel" wx:if="{{isFinished}}">
+    <text class="finished-emoji">🎉</text>
+    <text class="finished-title">本组单词学完啦！</text>
+    <text class="finished-sub">本次掌握 {{masteredCount}} / {{totalCount}} 个单词</text>
+    <view class="finished-btns">
+      <button class="btn-primary" bindtap="restart">再刷一遍</button>
+      <button class="btn-ghost" bindtap="goBack" style="margin-top:20rpx">返回首页</button>
+    </view>
+  </view>
+</view>

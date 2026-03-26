@@ -1,0 +1,198 @@
+/* pages/mistakes/mistakes.wxss */
+.container {
+  background: #F5F8FF;
+  min-height: 100vh;
+  padding-bottom: 40rpx;
+}
+
+/* 页头 */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #FF7875, #FF4D4F);
+  padding: 48rpx 36rpx 40rpx;
+  border-radius: 0 0 40rpx 40rpx;
+  margin-bottom: 24rpx;
+}
+
+.header-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 8rpx;
+}
+
+.header-count {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.85);
+}
+
+.clear-btn {
+  background: rgba(255,255,255,0.2);
+  color: #FFFFFF;
+  font-size: 26rpx;
+  padding: 12rpx 28rpx;
+  border-radius: 20rpx;
+}
+
+/* 操作按钮 */
+.action-btns {
+  display: flex;
+  gap: 20rpx;
+  padding: 0 24rpx 24rpx;
+}
+
+.review-btn {
+  flex: 1;
+  border: none;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  padding: 28rpx 0;
+  box-shadow: 0 6rpx 20rpx rgba(0,0,0,0.12);
+}
+
+.flashcard-btn {
+  background: linear-gradient(135deg, #4876FF, #722ED1);
+}
+
+.spell-btn {
+  background: linear-gradient(135deg, #52C41A, #95DE64);
+}
+
+/* 空状态 */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 100rpx 60rpx;
+}
+
+.empty-emoji {
+  font-size: 120rpx;
+  margin-bottom: 32rpx;
+}
+
+.empty-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.empty-desc {
+  font-size: 28rpx;
+  color: #888;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* 单词列表 */
+.word-list {
+  padding: 0 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.word-item {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.05);
+}
+
+.word-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.word-left {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.level-dot {
+  width: 12rpx;
+  height: 60rpx;
+  border-radius: 6rpx;
+  flex-shrink: 0;
+}
+
+.word-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.word-text {
+  font-size: 44rpx;
+  font-weight: 800;
+  color: #1a1a2e;
+  letter-spacing: 2rpx;
+}
+
+.phonetic-text {
+  font-size: 24rpx;
+  color: #AAA;
+  margin-top: 4rpx;
+}
+
+.word-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.meaning-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 8rpx;
+}
+
+.level-label {
+  font-size: 22rpx;
+  background: #F5F5F5;
+  padding: 4rpx 12rpx;
+  border-radius: 10rpx;
+}
+
+/* 单词操作按钮 */
+.word-actions {
+  display: flex;
+  gap: 16rpx;
+  border-top: 1rpx solid #F5F5F5;
+  padding-top: 16rpx;
+}
+
+.action-sound {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+  color: #4876FF;
+  background: #EBF5FF;
+  padding: 16rpx 0;
+  border-radius: 12rpx;
+  font-weight: 600;
+}
+
+.action-mastered {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+  color: #52C41A;
+  background: #F6FFED;
+  padding: 16rpx 0;
+  border-radius: 12rpx;
+  font-weight: 600;
+}

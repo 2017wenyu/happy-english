@@ -1,0 +1,57 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/flashcard/flashcard",
+    "pages/spelling/spelling",
+    "pages/mistakes/mistakes",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4876FF",
+    "navigationBarTitleText": "高频词小助手",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F8FF"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#4876FF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "学单词",
+        "iconPath": "assets/icons/home.png",
+        "selectedIconPath": "assets/icons/home_active.png"
+      },
+      {
+        "pagePath": "pages/mistakes/mistakes",
+        "text": "错题本",
+        "iconPath": "assets/icons/mistake.png",
+        "selectedIconPath": "assets/icons/mistake_active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "assets/icons/profile.png",
+        "selectedIconPath": "assets/icons/profile_active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "lazyCodeLoading": "requiredComponents",
+  "subpackages": [
+    {
+      "root": "subpackages/audio1",
+      "name": "audio1",
+      "pages": []
+    },
+    {
+      "root": "subpackages/audio2",
+      "name": "audio2",
+      "pages": []
+    }
+  ]
+}
