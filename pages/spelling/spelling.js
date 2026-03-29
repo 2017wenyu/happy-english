@@ -34,6 +34,10 @@ Page({
     voice.stopVoice()
   },
 
+  onHide() {
+    voice.stopVoice()
+  },
+
   loadWords(level) {
     let words
     if (level === 'all') {
@@ -73,9 +77,7 @@ Page({
       return
     }
     const word = words[index]
-    // 自动播放发音
-    setTimeout(() => this.playSound(word.word), 300)
-    
+
     this.setData({
       currentWord: word,
       currentIndex: index,
@@ -86,14 +88,22 @@ Page({
       showPhonetic: false,
       hint: ''
     })
+
+    // 卡片渲染完成后再播放（延迟 500ms，确保分包 mp3 文件就绪）
+    setTimeout(() => voice.playWordVoice(word.word), 500)
+
+    // 预加载下一题（不播放）
+    setTimeout(() => {
+      if (index + 1 < words.length) {
+        voice.preloadWordVoice(words[index + 1].word)
+      }
+    }, 1500)
   },
 
-  // 播放发音（有道词典TTS）
+  // 播放/重播发音
   playSound(word) {
     const w = word || (this.data.currentWord && this.data.currentWord.word)
     if (!w) return
-    const soundEnabled = wx.getStorageSync('soundEnabled')
-    if (soundEnabled === false) return
     voice.playWordVoice(w)
   },
 

@@ -1,5 +1,6 @@
 // pages/mistakes/mistakes.js
 const wordsData = require('../../data/words')
+const voice = require('../../utils/voice')
 
 Page({
   data: {
@@ -37,9 +38,7 @@ Page({
   // 播放发音
   playSound(e) {
     const word = e.currentTarget.dataset.word
-    const ctx = wx.createInnerAudioContext()
-    ctx.src = `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word)}&type=2`
-    ctx.autoplay = true
+    voice.playWordVoice(word)
   },
 
   // 标记为已掌握（从错题本移除）

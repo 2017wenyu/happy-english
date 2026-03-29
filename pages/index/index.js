@@ -12,6 +12,7 @@ Page({
     ],
     selectedLevel: null,
     totalMastered: 0,
+    totalMasteredPct: 0,
     totalWords: 220,
     todayCount: 0
   },
@@ -41,6 +42,7 @@ Page({
     this.setData({
       levels,
       totalMastered: masteredWords.length,
+      totalMasteredPct: Math.round(masteredWords.length / 220 * 100),
       todayCount: todayRecord ? todayRecord.count : 0
     })
   },

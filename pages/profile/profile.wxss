@@ -198,6 +198,7 @@
   display: flex;
   flex-direction: column;
   gap: 16rpx;
+  margin-top: 8rpx;
 }
 
 .parent-btn {
@@ -206,6 +207,7 @@
   font-weight: 600;
   padding: 24rpx 0;
   border: none;
+  text-align: center;
 }
 
 .reset-btn {
@@ -309,6 +311,7 @@
   font-weight: 600;
   padding: 24rpx 0;
   border: none;
+  text-align: center;
 }
 
 .cancel-btn {

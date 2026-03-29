@@ -1,6 +1,9 @@
 // app.js
 App({
   onLaunch() {
+    // 音频设置：不受静音开关影响，走扬声器播放
+    wx.setInnerAudioOption({ obeyMuteSwitch: false, speakerOn: true })
+
     // 初始化本地存储默认值
     if (!wx.getStorageSync('masteredWords')) {
       wx.setStorageSync('masteredWords', [])

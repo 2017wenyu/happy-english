@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./",
   "libVersion": "3.4.3",
-  "projectname": "happy-english",
+  "projectname": "wx",
   "condition": {},
   "setting": {
     "urlCheck": false,

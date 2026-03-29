@@ -38,7 +38,7 @@
       <text class="progress-title">总体掌握进度</text>
       <text class="progress-count">{{totalMastered}} / {{totalWords}}</text>
     </view>
-    <progress percent="{{totalMastered / totalWords * 100}}" stroke-width="12" 
+    <progress percent="{{totalMasteredPct}}" stroke-width="12" 
       activeColor="#4A90D9" backgroundColor="#E8F0FD" active border-radius="8" />
   </view>
 
