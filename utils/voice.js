@@ -1,8 +1,8 @@
 // utils/voice.js
-// 策略：
-//   _playCtx：主播放 Context，负责实际播放，状态独立
-//   _prePool：预加载池（Map<word, InnerAudioContext>），最多缓存 3 个词
-//             失败的词标记为 'failed'，避免主播放时重复加载失败
+// 方案 A：最小改动优化
+//   - 移除重复的 wx.setInnerAudioOption（由 app.js 调用）
+//   - 统一 soundEnabled 判断逻辑
+//   - 远程兜底增加重试机制
 
 // 分包规则：字母序 <= 'may' → audio1，其余 → audio2
 function _getPkg(safeName) {
@@ -27,11 +27,12 @@ let _playCtx = null
 let _playWord = null   // 主 ctx 当前加载的单词
 let _pendingPlay = false
 let _playMode = 'local' // 'local' | 'remote'
+let _remoteRetryCount = 0 // 远程重试次数
 
 function _ensurePlayCtx() {
   if (!_playCtx) {
     _playCtx = wx.createInnerAudioContext()
-    wx.setInnerAudioOption({ obeyMuteSwitch: false, speakerOn: true })
+    // wx.setInnerAudioOption 已在 app.js 中调用，此处不再重复
 
     _playCtx.onCanplay(() => {
       if (_pendingPlay) {
@@ -41,22 +42,33 @@ function _ensurePlayCtx() {
     })
 
     _playCtx.onError(() => {
-      console.warn('[voice] 主播放失败，word:', _playWord, 'mode:', _playMode, 'src:', _playCtx.src)
+      console.warn('[voice] 主播放失败，word:', _playWord, 'mode:', _playMode, 'src:', _playCtx.src, 'retry:', _remoteRetryCount)
       const word = _playWord
       if (!word) return
 
       if (_playMode === 'local') {
-        // 本地失败 → 尝试远程
+        // 本地失败 → 切换到远程
         _playMode = 'remote'
+        _remoteRetryCount = 0
         const remoteSrc = _getRemoteSrc(word)
         console.log('[voice] 切换到远程:', remoteSrc)
         _pendingPlay = true
         _playCtx.src = remoteSrc
+      } else if (_playMode === 'remote' && _remoteRetryCount < 1) {
+        // 远程失败 → 重试一次
+        _remoteRetryCount++
+        const remoteSrc = _getRemoteSrc(word)
+        console.log('[voice] 远程重试，次数:', _remoteRetryCount)
+        _pendingPlay = true
+        setTimeout(() => {
+          _playCtx.src = remoteSrc
+        }, 500)
       } else {
-        // 远程也失败 → 降级提示
-        console.error('[voice] 远程也失败，word:', word)
+        // 重试也失败 → 降级提示
+        console.error('[voice] 播放最终失败，word:', word, 'local+remote+retry 均失败')
         _pendingPlay = false
-        _playMode = 'local' // 重置模式
+        _playMode = 'local'
+        _remoteRetryCount = 0
         wx.showToast({ title: '音频加载失败', icon: 'none', duration: 1500 })
       }
     })
@@ -64,6 +76,7 @@ function _ensurePlayCtx() {
     _playCtx.onEnded(() => {
       _pendingPlay = false
       _playMode = 'local'
+      _remoteRetryCount = 0
     })
   }
   return _playCtx
@@ -99,12 +112,13 @@ function _preloadInPool(word) {
 
 /**
  * 播放单词发音（进卡 / 点击发音时调用）
- * 使用独立的 _playCtx，不受预加载池影响
+ * 统一 soundEnabled 判断逻辑
  */
 function playWordVoice(word) {
   if (!word) return
   const soundEnabled = wx.getStorageSync('soundEnabled')
-  if (soundEnabled === false) return
+  // 统一判断：soundEnabled 必须严格等于 true 才播放
+  if (soundEnabled !== true) return
 
   const ctx = _ensurePlayCtx()
   const localSrc = _getLocalSrc(word)
@@ -125,6 +139,7 @@ function playWordVoice(word) {
     // 切换到新词
     _playWord = word
     _playMode = 'local'
+    _remoteRetryCount = 0
     _pendingPlay = true
     try { ctx.stop() } catch (e) {}
     ctx.src = localSrc
@@ -139,7 +154,7 @@ function playWordVoice(word) {
 function preloadWordVoice(word) {
   if (!word) return
   const soundEnabled = wx.getStorageSync('soundEnabled')
-  if (soundEnabled === false) return
+  if (soundEnabled !== true) return
   _preloadInPool(word)
 }
 
