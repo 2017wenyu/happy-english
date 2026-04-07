@@ -1,0 +1,263 @@
+/* pages/chinese_quiz/chinese_quiz.wxss */
+.container {
+  background: #FFF5F5;
+  min-height: 100vh;
+  padding: 32rpx 24rpx 60rpx;
+}
+
+/* 进度条行 */
+.progress-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+}
+
+.progress-label {
+  font-size: 26rpx;
+  color: #666;
+  min-width: 80rpx;
+}
+
+.progress-track {
+  flex: 1;
+  height: 12rpx;
+  background: #FFE7E7;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #F5222D, #FF7A45);
+  border-radius: 6rpx;
+  transition: width 0.3s;
+}
+
+.score-label {
+  font-size: 26rpx;
+  color: #F5222D;
+  font-weight: 700;
+  min-width: 70rpx;
+  text-align: right;
+}
+
+/* 题目卡 */
+.question-card {
+  background: #FFFFFF;
+  border-radius: 28rpx;
+  padding: 48rpx 40rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 24rpx rgba(245, 34, 45, 0.1);
+  margin-bottom: 32rpx;
+}
+
+.question-label {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 24rpx;
+}
+
+.question-main {
+  display: block;
+  font-size: 80rpx;
+  font-weight: 700;
+  color: #F5222D;
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
+}
+
+.question-sub {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  background: #FFF0F0;
+  border-radius: 12rpx;
+  padding: 12rpx 20rpx;
+}
+
+/* 选项 */
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+  margin-bottom: 24rpx;
+}
+
+.option-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32rpx 28rpx;
+  border-radius: 20rpx;
+  font-size: 44rpx;
+  font-weight: 600;
+  text-align: center;
+  min-height: 100rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05);
+}
+
+.option-normal {
+  background: #FFFFFF;
+  color: #333;
+  border: 2rpx solid #F0F0F0;
+}
+
+.option-correct {
+  background: #F6FFED;
+  color: #52C41A;
+  border: 2rpx solid #52C41A;
+}
+
+.option-wrong {
+  background: #FFF2F0;
+  color: #F5222D;
+  border: 2rpx solid #F5222D;
+}
+
+.option-disabled {
+  opacity: 0.85;
+}
+
+.option-text {
+  flex: 1;
+  text-align: center;
+}
+
+.option-mark {
+  font-size: 32rpx;
+  font-weight: 700;
+}
+
+/* 答题反馈 */
+.answer-panel {
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  margin-bottom: 24rpx;
+}
+
+.panel-correct {
+  background: #F6FFED;
+  border: 2rpx solid #B7EB8F;
+}
+
+.panel-wrong {
+  background: #FFF2F0;
+  border: 2rpx solid #FFCCC7;
+}
+
+.answer-tip {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 700;
+  margin-bottom: 12rpx;
+}
+
+.panel-correct .answer-tip { color: #52C41A; }
+.panel-wrong .answer-tip   { color: #F5222D; }
+
+.answer-word {
+  display: block;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.answer-group {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.encourage-text {
+  font-size: 26rpx;
+  color: #52C41A;
+  margin-top: 8rpx;
+}
+
+/* 下一题 */
+.next-btn-wrap {
+  padding: 0 0 8rpx;
+}
+
+.next-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #F5222D, #FF7A45);
+  color: #FFFFFF;
+  border-radius: 24rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 28rpx 0;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgba(245, 34, 45, 0.3);
+}
+
+/* 批次结束 */
+.result-card {
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  padding: 60rpx 48rpx;
+  text-align: center;
+  margin-top: 40rpx;
+  box-shadow: 0 4rpx 24rpx rgba(245, 34, 45, 0.1);
+}
+
+.result-emoji {
+  display: block;
+  font-size: 100rpx;
+  margin-bottom: 20rpx;
+}
+
+.result-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 24rpx;
+}
+
+.result-score {
+  display: block;
+  font-size: 56rpx;
+  font-weight: 700;
+  color: #F5222D;
+  margin-bottom: 12rpx;
+}
+
+.result-pct {
+  display: block;
+  font-size: 30rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.result-comment {
+  font-size: 28rpx;
+  color: #888;
+  margin-bottom: 40rpx;
+}
+
+.again-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #F5222D, #FF7A45);
+  color: #FFFFFF;
+  border-radius: 24rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 28rpx 0;
+  border: none;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(245, 34, 45, 0.3);
+}
+
+.back-btn {
+  width: 100%;
+  background: #F5F5F5;
+  color: #666;
+  border-radius: 24rpx;
+  font-size: 30rpx;
+  padding: 24rpx 0;
+  border: none;
+}

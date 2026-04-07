@@ -1,16 +1,17 @@
 <!--pages/mistakes/mistakes.wxml-->
 <view class="container">
   <!-- 页头 -->
-  <view class="page-header">
+  <view class="page-header" style="background: {{subjectConfig.gradient}}">
     <view class="header-info">
-      <text class="header-title">📝 错题本</text>
+      <text class="header-title">{{subjectConfig.icon}} {{subjectConfig.title}}</text>
       <text class="header-count" wx:if="{{!isEmpty}}">共 {{wrongWordList.length}} 个需要复习</text>
+      <text class="header-count" wx:if="{{isEmpty}}">全部掌握，继续加油！</text>
     </view>
     <view class="clear-btn" bindtap="clearAll" wx:if="{{!isEmpty}}">清空</view>
   </view>
 
-  <!-- 操作按钮 -->
-  <view class="action-btns" wx:if="{{!isEmpty}}">
+  <!-- 操作按钮（英语学科才显示）-->
+  <view class="action-btns" wx:if="{{!isEmpty && subject === 'english'}}">
     <button class="review-btn flashcard-btn" bindtap="reviewAllMistakes">
       🃏 闪卡复习错题
     </button>
@@ -23,12 +24,12 @@
   <view class="empty-state" wx:if="{{isEmpty}}">
     <text class="empty-emoji">🎉</text>
     <text class="empty-title">错题本是空的！</text>
-    <text class="empty-desc">你的拼写很棒，错题本里没有单词。继续保持！</text>
+    <text class="empty-desc">太棒了，没有错题。继续保持！</text>
   </view>
 
-  <!-- 错题列表 -->
-  <view class="word-list" wx:if="{{!isEmpty}}">
-    <view 
+  <!-- 英语错题列表 -->
+  <view class="word-list" wx:if="{{!isEmpty && subject === 'english'}}">
+    <view
       class="word-item"
       wx:for="{{wrongWordList}}"
       wx:key="id"
@@ -50,6 +51,35 @@
         <view class="action-sound" catchtap="playSound" data-word="{{item.word}}">
           🔊 发音
         </view>
+        <view class="action-mastered" catchtap="markMastered" data-id="{{item.id}}">
+          ✓ 已掌握
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 汉字错题列表 -->
+  <view class="word-list" wx:if="{{!isEmpty && subject === 'chinese'}}">
+    <view
+      class="word-item cn-word-item"
+      wx:for="{{wrongWordList}}"
+      wx:key="id"
+    >
+      <view class="word-main">
+        <view class="word-left">
+          <view class="cn-char-wrap">
+            <text class="cn-char">{{item.word}}</text>
+          </view>
+          <view class="word-info">
+            <text class="cn-pinyin">{{item.pinyin}}</text>
+            <text class="cn-group">{{item.group[0]}}、{{item.group[1]}}</text>
+          </view>
+        </view>
+        <view class="word-right">
+          <text class="wrong-count-label" wx:if="{{item.wrongCount > 1}}">错{{item.wrongCount}}次</text>
+        </view>
+      </view>
+      <view class="word-actions">
         <view class="action-mastered" catchtap="markMastered" data-id="{{item.id}}">
           ✓ 已掌握
         </view>

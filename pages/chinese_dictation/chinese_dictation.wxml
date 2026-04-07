@@ -1,0 +1,87 @@
+<!--pages/chinese_dictation/chinese_dictation.wxml-->
+<view class="container">
+
+  <!-- 答题区 -->
+  <block wx:if="{{!batchDone}}">
+
+    <!-- 进度 -->
+    <view class="progress-row">
+      <text class="progress-label">{{questionIndex + 1}} / {{totalInBatch}}</text>
+      <view class="progress-track">
+        <view class="progress-fill" style="width: {{(questionIndex + 1) * 100 / totalInBatch}}%"></view>
+      </view>
+      <text class="score-label">{{score}}分</text>
+    </view>
+
+    <!-- 题目卡 -->
+    <view class="question-card" wx:if="{{current}}">
+      <text class="question-hint">🎧 听拼音和组词，写出正确汉字</text>
+      <view class="clue-row">
+        <view class="clue-item">
+          <text class="clue-label">拼音</text>
+          <text class="clue-value pinyin-text">{{answered ? displayPinyin : '???'}}</text>
+        </view>
+        <view class="clue-divider"></view>
+        <view class="clue-item">
+          <text class="clue-label">组词</text>
+          <text class="clue-value group-text">{{answered ? displayGroups.join('、') : '???'}}</text>
+        </view>
+      </view>
+      <button class="repeat-btn" bindtap="repeatSpeak">
+        🔊 重复播报{{showRepeatHint ? ' ✓' : ''}}
+      </button>
+    </view>
+
+    <!-- 输入区 -->
+    <view wx:if="{{!answered}}" class="input-card">
+      <text class="input-label">请写出这个汉字：</text>
+      <input
+        class="word-input"
+        value="{{inputValue}}"
+        placeholder="在这里输入汉字..."
+        placeholder-style="color: #CCC; font-size: 36rpx;"
+        maxlength="2"
+        bindinput="onInput"
+        confirm-type="done"
+        bindconfirm="submitAnswer"
+        focus="{{true}}"
+        cursor-spacing="40"
+      />
+      <button class="submit-btn" bindtap="submitAnswer">确认提交</button>
+    </view>
+
+    <!-- 答题结果 -->
+    <view wx:if="{{answered}}" class="result-panel {{isCorrect ? 'panel-correct' : 'panel-wrong'}}">
+      <text class="result-icon">{{isCorrect ? '✅' : '❌'}}</text>
+      <text class="result-tip">{{isCorrect ? '回答正确！' : '回答错误'}}</text>
+      <view class="result-detail">
+        <text class="result-word">正确汉字：「{{displayChar}}」</text>
+        <text class="result-pinyin">拼音：{{displayPinyin}}</text>
+        <text class="result-group">组词：{{displayGroupsStr}}</text>
+        <text wx:if="{{!isCorrect}}" class="your-answer">你写的：「{{inputValue}}」</text>
+      </view>
+      <button class="next-btn" bindtap="nextQuestion">
+        {{questionIndex + 1 >= totalInBatch ? '查看成绩 →' : '下一题 →'}}
+      </button>
+    </view>
+
+  </block>
+
+  <!-- 批次结束 -->
+  <block wx:if="{{batchDone}}">
+    <view class="final-card">
+      <text class="final-emoji">{{batchCorrect >= totalInBatch * 0.9 ? '🎉' : batchCorrect >= totalInBatch * 0.6 ? '😊' : '🤔'}}</text>
+      <text class="final-title">听写完成！</text>
+      <text class="final-score">{{batchCorrect}} / {{totalInBatch}} 题正确</text>
+      <text class="final-pct">正确率 {{batchPct}}%</text>
+      <view class="final-comment">
+        <text wx:if="{{batchCorrect >= totalInBatch * 0.9}}">听写小达人！🏆</text>
+        <text wx:elif="{{batchCorrect >= totalInBatch * 0.6}}">还不错哦，继续加油！</text>
+        <text wx:else>多听多写，生字会越来越熟！</text>
+      </view>
+      <button class="again-btn" bindtap="nextBatch">再来一组 🔄</button>
+      <button class="back-btn" bindtap="goBack">返回主页</button>
+    </view>
+  </block>
+
+</view>

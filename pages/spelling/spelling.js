@@ -1,7 +1,6 @@
 // pages/spelling/spelling.js
 const wordsData = require('../../data/words')
 const voice = require('../../utils/voice')
-const app = getApp()
 
 Page({
   data: {
@@ -140,7 +139,7 @@ Page({
       const filtered = wrongWords.filter(id => id !== currentWord.id)
       wx.setStorageSync('wrongWords', filtered)
       
-      app.addStudyCount(1)
+      getApp().addStudyCount(1)
       
       // 自动下一题
       setTimeout(() => this.nextWord(), 1200)

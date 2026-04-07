@@ -1,0 +1,204 @@
+/* pages/chinese_dictation/chinese_dictation.wxss */
+.container {
+  background: #FFF5F5;
+  min-height: 100vh;
+  padding: 32rpx 24rpx 60rpx;
+}
+
+/* 进度 */
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+}
+.progress-label { font-size: 26rpx; color: #666; min-width: 80rpx; }
+.progress-track { flex: 1; height: 12rpx; background: #FFE7E7; border-radius: 6rpx; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #F5222D, #FF7A45); border-radius: 6rpx; transition: width 0.3s; }
+.score-label { font-size: 26rpx; color: #F5222D; font-weight: 700; min-width: 70rpx; text-align: right; }
+
+/* 题目卡 */
+.question-card {
+  background: #FFFFFF;
+  border-radius: 28rpx;
+  padding: 40rpx 36rpx;
+  box-shadow: 0 4rpx 24rpx rgba(245, 34, 45, 0.1);
+  margin-bottom: 28rpx;
+  text-align: center;
+}
+
+.question-hint {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 28rpx;
+}
+
+.clue-row {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 28rpx;
+}
+
+.clue-item {
+  flex: 1;
+  padding: 16rpx;
+}
+
+.clue-divider {
+  width: 2rpx;
+  background: #F0F0F0;
+  margin: 8rpx 0;
+}
+
+.clue-label {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 10rpx;
+}
+
+.clue-value {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.pinyin-text {
+  color: #F5222D;
+  font-size: 40rpx;
+}
+
+.group-text {
+  color: #666;
+  font-size: 28rpx;
+  line-height: 1.5;
+}
+
+.repeat-btn {
+  background: #FFF0F0;
+  color: #F5222D;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  padding: 18rpx 40rpx;
+  border: 2rpx solid #FFD6D6;
+}
+
+/* 输入区 */
+.input-card {
+  background: #FFFFFF;
+  border-radius: 28rpx;
+  padding: 36rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0,0,0,0.05);
+  margin-bottom: 24rpx;
+}
+
+.input-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.word-input {
+  width: 100%;
+  border: 2rpx solid #FFD6D6;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  font-size: 56rpx;
+  text-align: center;
+  color: #333;
+  background: #FFFBFB;
+  box-sizing: border-box;
+  margin-bottom: 24rpx;
+  min-height: 120rpx;
+}
+
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #F5222D, #FF7A45);
+  color: #FFFFFF;
+  border-radius: 20rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 28rpx 0;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgba(245, 34, 45, 0.3);
+}
+
+/* 结果面板 */
+.result-panel {
+  border-radius: 28rpx;
+  padding: 36rpx;
+  text-align: center;
+  margin-bottom: 24rpx;
+}
+
+.panel-correct { background: #F6FFED; border: 2rpx solid #B7EB8F; }
+.panel-wrong   { background: #FFF2F0; border: 2rpx solid #FFCCC7; }
+
+.result-icon { display: block; font-size: 80rpx; margin-bottom: 12rpx; }
+.result-tip  { display: block; font-size: 32rpx; font-weight: 700; margin-bottom: 20rpx; }
+.panel-correct .result-tip { color: #52C41A; }
+.panel-wrong   .result-tip { color: #F5222D; }
+
+.result-detail { text-align: left; margin-bottom: 28rpx; }
+.result-word   { display: block; font-size: 36rpx; font-weight: 700; color: #333; margin-bottom: 8rpx; }
+.result-pinyin { display: block; font-size: 28rpx; color: #666; margin-bottom: 6rpx; }
+.result-group  { display: block; font-size: 28rpx; color: #666; margin-bottom: 6rpx; }
+.your-answer   { display: block; font-size: 26rpx; color: #F5222D; margin-top: 8rpx; }
+
+.next-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #F5222D, #FF7A45);
+  color: #FFFFFF;
+  border-radius: 20rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  padding: 24rpx 0;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgba(245, 34, 45, 0.3);
+}
+
+/* 批次结束 */
+.final-card {
+  background: #FFFFFF;
+  border-radius: 32rpx;
+  padding: 60rpx 48rpx;
+  text-align: center;
+  margin-top: 40rpx;
+  box-shadow: 0 4rpx 24rpx rgba(245, 34, 45, 0.1);
+}
+
+.final-emoji  { display: block; font-size: 100rpx; margin-bottom: 20rpx; }
+.final-title  { display: block; font-size: 36rpx; font-weight: 700; color: #333; margin-bottom: 24rpx; }
+.final-score  { display: block; font-size: 56rpx; font-weight: 700; color: #F5222D; margin-bottom: 12rpx; }
+.final-pct    { display: block; font-size: 30rpx; color: #666; margin-bottom: 20rpx; }
+.final-comment { font-size: 28rpx; color: #888; margin-bottom: 40rpx; }
+
+.again-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #F5222D, #FF7A45);
+  color: #FFFFFF;
+  border-radius: 24rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 28rpx 0;
+  border: none;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(245, 34, 45, 0.3);
+}
+
+.back-btn {
+  width: 100%;
+  background: #F5F5F5;
+  color: #666;
+  border-radius: 24rpx;
+  font-size: 30rpx;
+  padding: 24rpx 0;
+  border: none;
+}

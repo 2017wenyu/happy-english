@@ -1,0 +1,75 @@
+<!--pages/chinese_compose/chinese_compose.wxml-->
+<view class="container">
+
+  <block wx:if="{{!batchDone}}">
+
+    <!-- 进度 -->
+    <view class="progress-row">
+      <text class="progress-label">{{questionIndex + 1}} / {{totalInBatch}}</text>
+      <view class="progress-track">
+        <view class="progress-fill" style="width: {{(questionIndex + 1) * 100 / totalInBatch}}%"></view>
+      </view>
+      <text class="score-label">{{score}}分</text>
+    </view>
+
+    <!-- 题目卡 -->
+    <view class="question-card" wx:if="{{current}}">
+      <text class="question-hint">🧩 填入正确的汉字，完成词语</text>
+      <view class="template-wrap">
+        <text class="template-text">{{wordTemplate}}</text>
+      </view>
+      <text class="question-pinyin">拼音提示：{{current.pinyin}}</text>
+    </view>
+
+    <!-- 输入区 -->
+    <view wx:if="{{!answered}}" class="input-card">
+      <text class="input-label">填入的汉字是：</text>
+      <input
+        class="word-input"
+        value="{{inputValue}}"
+        placeholder="写一个字..."
+        placeholder-style="color: #CCC; font-size: 36rpx;"
+        maxlength="2"
+        bindinput="onInput"
+        bindconfirm="submitAnswer"
+        focus="{{true}}"
+        cursor-spacing="40"
+      />
+      <button class="submit-btn" bindtap="submitAnswer">确认</button>
+    </view>
+
+    <!-- 答题结果 -->
+    <view wx:if="{{answered}}" class="result-panel {{isCorrect ? 'panel-correct' : 'panel-wrong'}}">
+      <text class="result-icon">{{isCorrect ? '✅' : '❌'}}</text>
+      <text class="result-tip">{{isCorrect ? '答对了！' : '答错了'}}</text>
+      <view class="result-detail">
+        <text class="result-word">正确答案：「{{current.word}}」（{{current.pinyin}}）</text>
+        <text class="result-full">完整词语：{{groupWord}}</text>
+        <text class="result-group">其他组词：{{current.group.join('、')}}</text>
+        <text wx:if="{{!isCorrect}}" class="your-answer">你填的：「{{inputValue}}」</text>
+      </view>
+      <button class="next-btn" bindtap="nextQuestion">
+        {{questionIndex + 1 >= totalInBatch ? '查看成绩 →' : '下一题 →'}}
+      </button>
+    </view>
+
+  </block>
+
+  <!-- 批次结束 -->
+  <block wx:if="{{batchDone}}">
+    <view class="final-card">
+      <text class="final-emoji">{{batchCorrect >= totalInBatch * 0.9 ? '🎉' : batchCorrect >= totalInBatch * 0.6 ? '😊' : '🤔'}}</text>
+      <text class="final-title">组词练习完成！</text>
+      <text class="final-score">{{batchCorrect}} / {{totalInBatch}} 题正确</text>
+      <text class="final-pct">正确率 {{batchPct}}%</text>
+      <view class="final-comment">
+        <text wx:if="{{batchCorrect >= totalInBatch * 0.9}}">组词高手！继续保持！🏆</text>
+        <text wx:elif="{{batchCorrect >= totalInBatch * 0.6}}">组词不错，继续练习！😊</text>
+        <text wx:else>多多练习，会越来越棒！📖</text>
+      </view>
+      <button class="again-btn" bindtap="nextBatch">再来一组 🔄</button>
+      <button class="back-btn" bindtap="goBack">返回主页</button>
+    </view>
+  </block>
+
+</view>

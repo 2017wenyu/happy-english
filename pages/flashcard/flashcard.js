@@ -1,7 +1,6 @@
 // pages/flashcard/flashcard.js
 const wordsData = require('../../data/words')
 const voice = require('../../utils/voice')
-const app = getApp()
 
 Page({
   data: {
@@ -113,7 +112,7 @@ Page({
       newMastered.push(currentWord.id)
       newCount++
       wx.setStorageSync('masteredWords', newMastered)
-      app.addStudyCount(1)
+      getApp().addStudyCount(1)
       
       // 从错题本移除
       const wrongWords = wx.getStorageSync('wrongWords') || []

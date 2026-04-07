@@ -98,8 +98,8 @@ function _ensurePlayCtx() {
  */
 function playWordVoice(word) {
   if (!word) return
-  const soundEnabled = wx.getStorageSync('soundEnabled')
-  if (soundEnabled !== true) return
+  const soundEnabled = wx.getStorageSync('soundEnabled') !== false
+  if (soundEnabled === false) return
 
   const ctx = _ensurePlayCtx()
   if (!ctx) return // 正在销毁中

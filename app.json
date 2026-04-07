@@ -1,15 +1,20 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/english/english",
     "pages/flashcard/flashcard",
     "pages/spelling/spelling",
     "pages/mistakes/mistakes",
-    "pages/profile/profile"
+    "pages/profile/profile",
+    "pages/chinese/chinese",
+    "pages/chinese_quiz/chinese_quiz",
+    "pages/chinese_dictation/chinese_dictation",
+    "pages/chinese_compose/chinese_compose"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#4876FF",
-    "navigationBarTitleText": "高频词小助手",
+    "navigationBarTitleText": "小学学习助手",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#F5F8FF"
   },
@@ -21,15 +26,9 @@
     "list": [
       {
         "pagePath": "pages/index/index",
-        "text": "学单词",
+        "text": "首页",
         "iconPath": "assets/icons/home.png",
         "selectedIconPath": "assets/icons/home_active.png"
-      },
-      {
-        "pagePath": "pages/mistakes/mistakes",
-        "text": "错题本",
-        "iconPath": "assets/icons/mistake.png",
-        "selectedIconPath": "assets/icons/mistake_active.png"
       },
       {
         "pagePath": "pages/profile/profile",

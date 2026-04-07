@@ -1,3 +1,5 @@
 {
-  "navigationBarTitleText": "高频词小助手"
+  "navigationBarTitleText": "小学学习助手",
+  "navigationBarBackgroundColor": "#4876FF",
+  "navigationBarTextStyle": "white"
 }

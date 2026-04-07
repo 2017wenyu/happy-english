@@ -5,6 +5,32 @@
   padding-bottom: 60rpx;
 }
 
+/* 学科切换 Tab */
+.subject-tabs {
+  display: flex;
+  background: #FFFFFF;
+  padding: 16rpx 24rpx 0;
+  gap: 8rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+}
+
+.subject-tab {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+  color: #999;
+  padding: 16rpx 0 20rpx;
+  border-bottom: 4rpx solid transparent;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.subject-tab.tab-active {
+  color: #4876FF;
+  border-bottom-color: #4876FF;
+  font-weight: 700;
+}
+
 /* 顶部统计 */
 .stats-header {
   background: linear-gradient(135deg, #4876FF, #722ED1);
@@ -223,6 +249,58 @@
 .pwd-btn {
   background: #F6FFED;
   color: #52C41A;
+}
+
+/* 即将上线提示 */
+.coming-soon-tip {
+  background: rgba(255,255,255,0.15);
+  border-radius: 20rpx;
+  padding: 24rpx;
+  text-align: center;
+}
+
+.coming-soon-text {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.9);
+}
+
+/* 错题本入口卡片 */
+.mistake-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  active-opacity: 0.7;
+}
+
+.mistake-entry-left {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.mistake-entry-icon {
+  font-size: 44rpx;
+}
+
+.mistake-entry-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.mistake-entry-sub {
+  font-size: 24rpx;
+  color: #999;
+  display: block;
+}
+
+.mistake-entry-arrow {
+  font-size: 40rpx;
+  color: #CCC;
+  font-weight: 300;
 }
 
 /* 关于 */

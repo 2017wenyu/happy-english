@@ -1,0 +1,147 @@
+/* pages/chinese_compose/chinese_compose.wxss */
+.container {
+  background: #FFF9EE;
+  min-height: 100vh;
+  padding: 32rpx 24rpx 60rpx;
+}
+
+.progress-row { display: flex; align-items: center; gap: 16rpx; margin-bottom: 32rpx; }
+.progress-label { font-size: 26rpx; color: #666; min-width: 80rpx; }
+.progress-track { flex: 1; height: 12rpx; background: #FFE7CC; border-radius: 6rpx; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #FA8C16, #FFC53D); border-radius: 6rpx; transition: width 0.3s; }
+.score-label { font-size: 26rpx; color: #FA8C16; font-weight: 700; min-width: 70rpx; text-align: right; }
+
+.question-card {
+  background: #FFFFFF;
+  border-radius: 28rpx;
+  padding: 48rpx 36rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 24rpx rgba(250, 140, 22, 0.12);
+  margin-bottom: 28rpx;
+}
+
+.question-hint {
+  display: block;
+  font-size: 26rpx;
+  color: #999;
+  margin-bottom: 32rpx;
+}
+
+.template-wrap {
+  background: #FFF7E6;
+  border-radius: 20rpx;
+  padding: 32rpx 40rpx;
+  margin-bottom: 24rpx;
+}
+
+.template-text {
+  font-size: 72rpx;
+  font-weight: 700;
+  color: #333;
+  letter-spacing: 8rpx;
+}
+
+.question-pinyin {
+  display: block;
+  font-size: 28rpx;
+  color: #FA8C16;
+  background: #FFF7E6;
+  border-radius: 12rpx;
+  padding: 10rpx 20rpx;
+}
+
+.input-card {
+  background: #FFFFFF;
+  border-radius: 28rpx;
+  padding: 36rpx;
+  box-shadow: 0 2rpx 16rpx rgba(0,0,0,0.05);
+  margin-bottom: 24rpx;
+}
+
+.input-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 20rpx;
+}
+
+.word-input {
+  width: 100%;
+  border: 2rpx solid #FFD591;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  font-size: 56rpx;
+  text-align: center;
+  color: #333;
+  background: #FFFBF0;
+  box-sizing: border-box;
+  margin-bottom: 24rpx;
+  min-height: 120rpx;
+}
+
+.submit-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #FA8C16, #FFC53D);
+  color: #FFFFFF;
+  border-radius: 20rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 28rpx 0;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgba(250, 140, 22, 0.3);
+}
+
+.result-panel { border-radius: 28rpx; padding: 36rpx; text-align: center; margin-bottom: 24rpx; }
+.panel-correct { background: #F6FFED; border: 2rpx solid #B7EB8F; }
+.panel-wrong   { background: #FFF7E6; border: 2rpx solid #FFD591; }
+.result-icon { display: block; font-size: 80rpx; margin-bottom: 12rpx; }
+.result-tip  { display: block; font-size: 32rpx; font-weight: 700; margin-bottom: 20rpx; }
+.panel-correct .result-tip { color: #52C41A; }
+.panel-wrong   .result-tip { color: #FA8C16; }
+.result-detail { text-align: left; margin-bottom: 28rpx; }
+.result-word   { display: block; font-size: 32rpx; font-weight: 700; color: #333; margin-bottom: 8rpx; }
+.result-full   { display: block; font-size: 32rpx; color: #FA8C16; margin-bottom: 6rpx; }
+.result-group  { display: block; font-size: 26rpx; color: #999; }
+.your-answer   { display: block; font-size: 26rpx; color: #F5222D; margin-top: 8rpx; }
+
+.next-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #FA8C16, #FFC53D);
+  color: #FFFFFF;
+  border-radius: 20rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  padding: 24rpx 0;
+  border: none;
+  box-shadow: 0 4rpx 16rpx rgba(250, 140, 22, 0.3);
+}
+
+.final-card { background: #FFFFFF; border-radius: 32rpx; padding: 60rpx 48rpx; text-align: center; margin-top: 40rpx; box-shadow: 0 4rpx 24rpx rgba(250, 140, 22, 0.12); }
+.final-emoji  { display: block; font-size: 100rpx; margin-bottom: 20rpx; }
+.final-title  { display: block; font-size: 36rpx; font-weight: 700; color: #333; margin-bottom: 24rpx; }
+.final-score  { display: block; font-size: 56rpx; font-weight: 700; color: #FA8C16; margin-bottom: 12rpx; }
+.final-pct    { display: block; font-size: 30rpx; color: #666; margin-bottom: 20rpx; }
+.final-comment { font-size: 28rpx; color: #888; margin-bottom: 40rpx; }
+
+.again-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #FA8C16, #FFC53D);
+  color: #FFFFFF;
+  border-radius: 24rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  padding: 28rpx 0;
+  border: none;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 16rpx rgba(250, 140, 22, 0.3);
+}
+
+.back-btn {
+  width: 100%;
+  background: #F5F5F5;
+  color: #666;
+  border-radius: 24rpx;
+  font-size: 30rpx;
+  padding: 24rpx 0;
+  border: none;
+}

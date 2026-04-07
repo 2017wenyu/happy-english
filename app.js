@@ -5,6 +5,7 @@ App({
     wx.setInnerAudioOption({ obeyMuteSwitch: false, speakerOn: true })
 
     // 初始化本地存储默认值
+    // 英语相关
     if (!wx.getStorageSync('masteredWords')) {
       wx.setStorageSync('masteredWords', [])
     }
@@ -14,6 +15,17 @@ App({
     if (!wx.getStorageSync('studyRecords')) {
       wx.setStorageSync('studyRecords', [])
     }
+    // 汉字学习相关
+    if (!wx.getStorageSync('masteredWords_chinese')) {
+      wx.setStorageSync('masteredWords_chinese', [])
+    }
+    if (!wx.getStorageSync('wrongWords_chinese')) {
+      wx.setStorageSync('wrongWords_chinese', [])
+    }
+    if (!wx.getStorageSync('studyRecords_chinese')) {
+      wx.setStorageSync('studyRecords_chinese', [])
+    }
+    // 音效设置
     if (!wx.getStorageSync('soundEnabled')) {
       wx.setStorageSync('soundEnabled', true)
     }

@@ -1,0 +1,94 @@
+<!--pages/chinese/chinese.wxml-->
+<view class="container">
+
+  <!-- 顶部 Header -->
+  <view class="header">
+    <view class="header-inner">
+      <text class="header-title">📖 汉字生字词</text>
+      <text class="header-sub">人教版1-6年级全覆盖</text>
+    </view>
+  </view>
+
+  <!-- 年级选择 -->
+  <view class="section-card">
+    <view class="section-label">选择年级</view>
+    <view class="grade-row">
+      <view
+        class="grade-btn {{selectedGrade === item.key ? 'grade-btn-active' : ''}}"
+        wx:for="{{grades}}"
+        wx:key="key"
+        data-key="{{item.key}}"
+        bindtap="selectGrade"
+      >{{item.short}}</view>
+    </view>
+
+    <!-- 学期选择 -->
+    <view class="term-row">
+      <view
+        class="term-btn {{selectedTerm === item.key ? 'term-btn-active' : ''}}"
+        wx:for="{{terms}}"
+        wx:key="key"
+        data-key="{{item.key}}"
+        bindtap="selectTerm"
+      >{{item.name}}</view>
+    </view>
+
+    <!-- 进度小卡片 -->
+    <view class="progress-bar-wrap">
+      <view class="progress-info">
+        <text class="progress-text">已掌握 {{masteredCount}} / {{wordCount}} 个生字</text>
+        <text class="progress-pct">{{wordCount > 0 ? masteredPct : 0}}%</text>
+      </view>
+      <progress
+        percent="{{wordCount > 0 ? masteredCount * 100 / wordCount : 0}}"
+        stroke-width="10"
+        activeColor="#FA8C16"
+        backgroundColor="#FFF1D6"
+        border-radius="5"
+      />
+    </view>
+  </view>
+
+  <!-- 全部复习按钮 -->
+  <view class="all-btn-wrap">
+    <button class="all-btn" bindtap="goAllReview">🚀 全部 {{wordCount}} 字混合练习</button>
+  </view>
+
+  <!-- 4种玩法 -->
+  <view class="section-label modes-label">选择练习模式</view>
+  <view class="mode-grid">
+    <view
+      class="mode-card"
+      wx:for="{{modes}}"
+      wx:key="key"
+      data-mode="{{item.key}}"
+      bindtap="startMode"
+    >
+      <view class="mode-icon-wrap" style="background: {{item.gradient}}">
+        <text class="mode-emoji">{{item.emoji}}</text>
+      </view>
+      <view class="mode-info">
+        <text class="mode-title">{{item.title}}</text>
+        <text class="mode-desc">{{item.desc}}</text>
+      </view>
+      <text class="mode-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 错题本入口 -->
+  <view class="mistake-entry" bindtap="goMistakes">
+    <view class="mistake-left">
+      <text class="mistake-icon">📝</text>
+      <view>
+        <text class="mistake-title">汉字错题本</text>
+        <text class="mistake-sub">查看并重练做错的生字</text>
+      </view>
+    </view>
+    <text class="mistake-arrow">›</text>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">每天10分钟，生字学得稳 ✨</text>
+  </view>
+
+</view>

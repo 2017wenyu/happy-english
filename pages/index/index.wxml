@@ -1,67 +1,50 @@
 <!--pages/index/index.wxml-->
 <view class="container">
-  <!-- 顶部欢迎区 -->
+
+  <!-- 顶部 banner -->
   <view class="header">
-    <view class="header-left">
-      <text class="greeting">📚 高频词小助手</text>
-      <text class="sub-greeting">220个必学单词，每天进步一点点</text>
-    </view>
-    <view class="today-badge">
-      <text class="today-num">{{todayCount}}</text>
-      <text class="today-label">今日学习</text>
+    <view class="header-inner">
+      <text class="app-title">📚 小学学习助手</text>
+      <text class="app-subtitle">快乐学习，每天进步一点点</text>
     </view>
   </view>
 
-  <!-- 模式选择按钮（移到最上面） -->
-  <view class="mode-section">
-    <view class="section-title">选择模式</view>
-    <view class="mode-btns">
-      <button class="mode-btn flashcard-btn" bindtap="goFlashcard">
-        <text class="mode-icon">🃏</text>
-        <text class="mode-name">单词闪卡</text>
-        <text class="mode-desc">认读 + 发音</text>
-      </button>
-      <button class="mode-btn spelling-btn" bindtap="goSpelling">
-        <text class="mode-icon">✏️</text>
-        <text class="mode-name">拼写默写</text>
-        <text class="mode-desc">听音 + 拼写</text>
-      </button>
-    </view>
-    <button class="all-btn" bindtap="goAllFlashcard">
-      🔀 全部220词混合闪卡
-    </button>
-  </view>
-
-  <!-- 总进度条 -->
-  <view class="total-progress-card">
-    <view class="progress-info">
-      <text class="progress-title">总体掌握进度</text>
-      <text class="progress-count">{{totalMastered}} / {{totalWords}}</text>
-    </view>
-    <progress percent="{{totalMasteredPct}}" stroke-width="12" 
-      activeColor="#4A90D9" backgroundColor="#E8F0FD" active border-radius="8" />
-  </view>
-
-  <!-- 级别选择 -->
-  <view class="section-title">选择级别</view>
-  <view class="level-grid">
-    <view 
-      class="level-card {{selectedLevel === item.key ? 'selected' : ''}}"
-      wx:for="{{levels}}"
+  <!-- 学科入口 -->
+  <view class="section-label">选择学习内容</view>
+  <view class="subject-list">
+    <view
+      class="subject-card"
+      wx:for="{{subjects}}"
       wx:key="key"
-      bindtap="selectLevel"
-      data-level="{{item.key}}"
+      bindtap="goSubject"
+      data-key="{{item.key}}"
+      data-available="{{item.available}}"
     >
-      <view class="level-header" style="background: {{item.color}}20; border-color: {{selectedLevel === item.key ? item.color : 'transparent'}}">
-        <text class="level-emoji">{{item.emoji}}</text>
-        <view class="level-name-wrap">
-          <text class="level-name">{{item.name}}</text>
-          <text class="level-desc">{{item.desc}}</text>
-        </view>
-        <text class="level-count" style="color: {{item.color}}">{{item.mastered}}/{{item.total}}</text>
+      <!-- 左侧图标区 -->
+      <view class="subject-icon-wrap" style="background: {{item.gradient}}">
+        <text class="subject-emoji">{{item.emoji}}</text>
       </view>
-      <progress percent="{{item.progress}}" stroke-width="8" 
-        activeColor="{{item.color}}" backgroundColor="#F0F0F0" border-radius="4" />
+
+      <!-- 中间文字区 -->
+      <view class="subject-info">
+        <view class="subject-name-row">
+          <text class="subject-name">{{item.name}}</text>
+          <text wx:if="{{!item.available}}" class="badge-soon">即将上线</text>
+        </view>
+        <text class="subject-desc">{{item.desc}}</text>
+        <text class="subject-tag">{{item.tag}}</text>
+      </view>
+
+      <!-- 右侧箭头 -->
+      <view class="subject-arrow {{item.available ? '' : 'arrow-dim'}}">
+        <text class="arrow-icon">›</text>
+      </view>
     </view>
   </view>
+
+  <!-- 底部版权 -->
+  <view class="footer">
+    <text class="footer-text">更多功能持续更新中 ✨</text>
+  </view>
+
 </view>

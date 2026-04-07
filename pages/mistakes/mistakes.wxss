@@ -186,13 +186,47 @@
   font-weight: 600;
 }
 
-.action-mastered {
-  flex: 1;
-  text-align: center;
-  font-size: 26rpx;
-  color: #52C41A;
-  background: #F6FFED;
-  padding: 16rpx 0;
-  border-radius: 12rpx;
-  font-weight: 600;
+
+/* 汉字错题专用样式 */
+.cn-word-item {
+  border-left: 6rpx solid #FF4D4F;
 }
+
+.cn-char-wrap {
+  width: 80rpx;
+  height: 80rpx;
+  background: linear-gradient(135deg, #FF7875, #FF4D4F);
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cn-char {
+  font-size: 44rpx;
+  font-weight: 900;
+  color: #FFFFFF;
+}
+
+.cn-pinyin {
+  font-size: 28rpx;
+  color: #FF4D4F;
+  font-weight: 600;
+  margin-bottom: 4rpx;
+}
+
+.cn-group {
+  font-size: 24rpx;
+  color: #888;
+}
+
+.wrong-count-label {
+  font-size: 22rpx;
+  color: #FA8C16;
+  background: #FFF7E6;
+  border: 1rpx solid #FFD591;
+  padding: 4rpx 12rpx;
+  border-radius: 10rpx;
+}
+

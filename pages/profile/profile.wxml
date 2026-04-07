@@ -1,12 +1,25 @@
 <!--pages/profile/profile.wxml-->
 <view class="container">
+  <!-- 顶部学科切换 Tab -->
+  <view class="subject-tabs">
+    <view
+      class="subject-tab {{subject === item.key ? 'tab-active' : ''}}"
+      wx:for="{{subjectTabs}}"
+      wx:key="key"
+      bindtap="switchSubject"
+      data-subject="{{item.key}}"
+    >
+      {{item.label}}
+    </view>
+  </view>
+
   <!-- 顶部统计 -->
-  <view class="stats-header">
-    <text class="stats-title">📊 我的学习</text>
+  <view class="stats-header" style="background: {{subjectConfig.gradient}}">
+    <text class="stats-title">{{subjectConfig.icon}} {{subjectConfig.title}}</text>
     <view class="stats-grid">
       <view class="stat-card">
         <text class="stat-num blue">{{totalMastered}}</text>
-        <text class="stat-label">已掌握单词</text>
+        <text class="stat-label">{{subjectConfig.totalLabel}}</text>
       </view>
       <view class="stat-card">
         <text class="stat-num orange">{{todayCount}}</text>
@@ -16,25 +29,30 @@
         <text class="stat-num green">{{totalStudyDays}}</text>
         <text class="stat-label">累计天数</text>
       </view>
-      <view class="stat-card">
+      <view class="stat-card" bindtap="goMistakes">
         <text class="stat-num red">{{wrongCount}}</text>
-        <text class="stat-label">待复习错词</text>
+        <text class="stat-label">待复习错题</text>
       </view>
     </view>
 
-    <!-- 总体进度 -->
-    <view class="total-progress">
+    <!-- 总体进度（有 totalWords 时才显示）-->
+    <view class="total-progress" wx:if="{{totalWords > 0}}">
       <view class="progress-label-row">
         <text class="progress-label">总掌握率</text>
         <text class="progress-pct">{{totalMasteredPct}}%</text>
       </view>
       <progress percent="{{totalMasteredPct}}" stroke-width="16"
-        activeColor="#4A90D9" backgroundColor="rgba(255,255,255,0.3)" active border-radius="10" />
+        activeColor="rgba(255,255,255,0.9)" backgroundColor="rgba(255,255,255,0.3)" active border-radius="10" />
+    </view>
+
+    <!-- 暂未开通提示 -->
+    <view class="coming-soon-tip" wx:if="{{totalWords === 0}}">
+      <text class="coming-soon-text">🚀 该学科功能即将上线，敬请期待</text>
     </view>
   </view>
 
-  <!-- 各级别进度 -->
-  <view class="section-card">
+  <!-- 各级别进度（仅英语）-->
+  <view class="section-card" wx:if="{{subject === 'english' && levelStats.length > 0}}">
     <text class="section-title">各级别掌握情况</text>
     <view class="level-list">
       <view class="level-row" wx:for="{{levelStats}}" wx:key="key">
@@ -49,6 +67,18 @@
         </view>
       </view>
     </view>
+  </view>
+
+  <!-- 错题本入口 -->
+  <view class="section-card mistake-entry" bindtap="goMistakes">
+    <view class="mistake-entry-left">
+      <text class="mistake-entry-icon">📝</text>
+      <view>
+        <text class="mistake-entry-title">{{subjectConfig.title}}错题本</text>
+        <text class="mistake-entry-sub">{{wrongCount > 0 ? wrongCount + ' 道题待复习' : '暂无错题，棒棒的！'}}</text>
+      </view>
+    </view>
+    <text class="mistake-entry-arrow">›</text>
   </view>
 
   <!-- 设置 -->
@@ -93,7 +123,7 @@
 
   <!-- 关于 -->
   <view class="about-card">
-    <text class="about-text">小学英语220高频词小助手 MVP v1.0</text>
+    <text class="about-text">小学学习助手 v1.1</text>
     <text class="about-sub">全部数据存储在本地，不上传任何信息</text>
   </view>
 </view>
@@ -103,8 +133,8 @@
   <view class="modal-box" catchtap="noop">
     <text class="modal-title">🔐 家长验证</text>
     <text class="modal-desc">请输入家长密码以解锁设置</text>
-    <input 
-      class="pwd-input" 
+    <input
+      class="pwd-input"
       type="number"
       password
       placeholder="请输入密码"
@@ -125,7 +155,7 @@
   <view class="modal-box" catchtap="noop">
     <text class="modal-title">🔐 设置家长密码</text>
     <text class="modal-desc">设置密码后可以管理孩子的学习数据</text>
-    <input 
+    <input
       class="pwd-input"
       type="number"
       password
@@ -134,7 +164,7 @@
       bindinput="onNewPwdInput"
       maxlength="8"
     />
-    <input 
+    <input
       class="pwd-input"
       type="number"
       password

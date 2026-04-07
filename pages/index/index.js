@@ -1,78 +1,67 @@
 // pages/index/index.js
-const wordsData = require('../../data/words')
-
 Page({
   data: {
-    levels: [
-      { key: 'level1', name: '一级', desc: '低年级', emoji: '🌱', color: '#52C41A', total: 0, mastered: 0 },
-      { key: 'level2', name: '二级', desc: '一年级', emoji: '🌿', color: '#1890FF', total: 0, mastered: 0 },
-      { key: 'level3', name: '三级', desc: '二年级', emoji: '🌳', color: '#722ED1', total: 0, mastered: 0 },
-      { key: 'level4', name: '四级', desc: '三年级', emoji: '⭐', color: '#FA8C16', total: 0, mastered: 0 },
-      { key: 'level5', name: '五级', desc: '四~六年级', emoji: '🏆', color: '#F5222D', total: 0, mastered: 0 }
-    ],
-    selectedLevel: null,
-    totalMastered: 0,
-    totalMasteredPct: 0,
-    totalWords: 220,
-    todayCount: 0
-  },
-
-  onShow() {
-    this.loadStats()
-  },
-
-  loadStats() {
-    const masteredWords = wx.getStorageSync('masteredWords') || []
-    const studyRecords = wx.getStorageSync('studyRecords') || []
-    const today = new Date().toLocaleDateString('zh-CN')
-    const todayRecord = studyRecords.find(r => r.date === today)
-
-    // 统计每个等级的词数和掌握数
-    const levels = this.data.levels.map(lv => {
-      const levelWords = wordsData.wordList.filter(w => w.level === lv.key)
-      const masteredCount = levelWords.filter(w => masteredWords.includes(w.id)).length
-      return {
-        ...lv,
-        total: levelWords.length,
-        mastered: masteredCount,
-        progress: levelWords.length > 0 ? Math.round(masteredCount / levelWords.length * 100) : 0
+    subjects: [
+      {
+        key: 'english',
+        name: '英语高频词',
+        desc: '220个必学英语单词',
+        emoji: '🔤',
+        color: '#4876FF',
+        gradient: 'linear-gradient(135deg, #4876FF, #722ED1)',
+        tag: '闪卡 · 默写 · 测评',
+        available: true
+      },
+      {
+        key: 'chinese',
+        name: '汉字生字词',
+        desc: '小学语文必学生字',
+        emoji: '📖',
+        color: '#F5222D',
+        gradient: 'linear-gradient(135deg, #F5222D, #FF7A45)',
+        tag: '选字 · 听写 · 组词',
+        available: true
+      },
+      {
+        key: 'poem',
+        name: '古诗学习',
+        desc: '小学必背古诗词',
+        emoji: '📜',
+        color: '#722ED1',
+        gradient: 'linear-gradient(135deg, #722ED1, #B37FEB)',
+        tag: '朗读 · 背诵 · 理解',
+        available: false
+      },
+      {
+        key: 'idiom',
+        name: '成语学习',
+        desc: '常用成语释义与用法',
+        emoji: '🏮',
+        color: '#FA8C16',
+        gradient: 'linear-gradient(135deg, #FA8C16, #FFC53D)',
+        tag: '释义 · 故事 · 练习',
+        available: false
       }
-    })
-
-    this.setData({
-      levels,
-      totalMastered: masteredWords.length,
-      totalMasteredPct: Math.round(masteredWords.length / 220 * 100),
-      todayCount: todayRecord ? todayRecord.count : 0
-    })
+    ]
   },
 
-  selectLevel(e) {
-    const levelKey = e.currentTarget.dataset.level
-    this.setData({ selectedLevel: levelKey })
-  },
+  goSubject(e) {
+    const key = e.currentTarget.dataset.key
+    const available = e.currentTarget.dataset.available
 
-  goFlashcard() {
-    if (!this.data.selectedLevel) {
-      wx.showToast({ title: '请先选择级别', icon: 'none' })
-      return
+    if (available === true || available === 'true') {
+      const routes = {
+        english: '/pages/english/english',
+        chinese: '/pages/chinese/chinese',
+      }
+      const url = routes[key]
+      if (url) {
+        wx.navigateTo({ url })
+      } else {
+        wx.showToast({ title: '功能开发中，敬请期待 🚀', icon: 'none', duration: 2000 })
+      }
+    } else {
+      wx.showToast({ title: '功能开发中，敬请期待 🚀', icon: 'none', duration: 2000 })
     }
-    wx.navigateTo({
-      url: `/pages/flashcard/flashcard?level=${this.data.selectedLevel}`
-    })
-  },
-
-  goSpelling() {
-    if (!this.data.selectedLevel) {
-      wx.showToast({ title: '请先选择级别', icon: 'none' })
-      return
-    }
-    wx.navigateTo({
-      url: `/pages/spelling/spelling?level=${this.data.selectedLevel}`
-    })
-  },
-
-  goAllFlashcard() {
-    wx.navigateTo({ url: '/pages/flashcard/flashcard?level=all' })
   }
 })
