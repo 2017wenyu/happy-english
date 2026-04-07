@@ -1,8 +1,9 @@
 // utils/voice.js
-// 方案 A：最小改动优化
-//   - 移除重复的 wx.setInnerAudioOption（由 app.js 调用）
-//   - 统一 soundEnabled 判断逻辑
-//   - 远程兜底增加重试机制
+// 方案 B：彻底重构
+//   - 单例模式：全局只创建一个 _playCtx，避免资源竞争
+//   - 懒加载：取消预加载池，用户交互时才开始加载
+//   - 错误分级：本地失败 → 远程 → 重试 → 提示
+//   - 生命周期：提供 cleanup() 接口，页面卸载时统一清理
 
 // 分包规则：字母序 <= 'may' → audio1，其余 → audio2
 function _getPkg(safeName) {
@@ -22,50 +23,59 @@ function _getRemoteSrc(word) {
   return `https://dict.youdao.com/dictvoice?audio=${encodeURIComponent(word)}&type=2`
 }
 
-// ---------- 主播放 Context ----------
+// ---------- 单例主播放 Context ----------
 let _playCtx = null
-let _playWord = null   // 主 ctx 当前加载的单词
+let _playWord = null   // 当前播放的单词
 let _pendingPlay = false
 let _playMode = 'local' // 'local' | 'remote'
-let _remoteRetryCount = 0 // 远程重试次数
+let _remoteRetryCount = 0
+let _isDestroying = false // 是否正在销毁
 
 function _ensurePlayCtx() {
+  if (_isDestroying) return null
+
   if (!_playCtx) {
     _playCtx = wx.createInnerAudioContext()
-    // wx.setInnerAudioOption 已在 app.js 中调用，此处不再重复
 
     _playCtx.onCanplay(() => {
-      if (_pendingPlay) {
+      if (_pendingPlay && !_isDestroying) {
         _pendingPlay = false
-        _playCtx.play()
+        try {
+          _playCtx.play()
+        } catch (e) {
+          console.warn('[voice] play 失败', e)
+        }
       }
     })
 
-    _playCtx.onError(() => {
+    _playCtx.onError((err) => {
+      if (_isDestroying) return
       console.warn('[voice] 主播放失败，word:', _playWord, 'mode:', _playMode, 'src:', _playCtx.src, 'retry:', _remoteRetryCount)
       const word = _playWord
       if (!word) return
 
       if (_playMode === 'local') {
-        // 本地失败 → 切换到远程
+        // Level 1：本地失败 → 切换远程
         _playMode = 'remote'
         _remoteRetryCount = 0
         const remoteSrc = _getRemoteSrc(word)
         console.log('[voice] 切换到远程:', remoteSrc)
         _pendingPlay = true
-        _playCtx.src = remoteSrc
+        try { _playCtx.src = remoteSrc } catch (e) {}
       } else if (_playMode === 'remote' && _remoteRetryCount < 1) {
-        // 远程失败 → 重试一次
+        // Level 2：远程失败 → 500ms 后重试
         _remoteRetryCount++
         const remoteSrc = _getRemoteSrc(word)
         console.log('[voice] 远程重试，次数:', _remoteRetryCount)
         _pendingPlay = true
         setTimeout(() => {
-          _playCtx.src = remoteSrc
+          if (!_isDestroying) {
+            try { _playCtx.src = remoteSrc } catch (e) {}
+          }
         }, 500)
       } else {
-        // 重试也失败 → 降级提示
-        console.error('[voice] 播放最终失败，word:', word, 'local+remote+retry 均失败')
+        // Level 3：重试失败 → 弹提示
+        console.error('[voice] 播放最终失败，word:', word)
         _pendingPlay = false
         _playMode = 'local'
         _remoteRetryCount = 0
@@ -82,52 +92,19 @@ function _ensurePlayCtx() {
   return _playCtx
 }
 
-// ---------- 预加载池（最多缓存 3 个词，失败标记为 'failed'）----------
-const PRE_POOL_SIZE = 3
-const _prePool = new Map() // word -> InnerAudioContext | 'failed'
-
-function _preloadInPool(word) {
-  if (!word) return
-  if (_prePool.has(word)) return // 已缓存或已失败
-
-  // 超出上限时，移除最早加入的条目
-  if (_prePool.size >= PRE_POOL_SIZE) {
-    const firstKey = _prePool.keys().next().value
-    const firstVal = _prePool.get(firstKey)
-    if (firstVal !== 'failed') {
-      try { firstVal.destroy() } catch (e) {}
-    }
-    _prePool.delete(firstKey)
-  }
-
-  const ctx = wx.createInnerAudioContext()
-  ctx.onError((err) => {
-    console.warn('[voice] 预加载失败:', word, err)
-    _prePool.set(word, 'failed') // 标记失败，避免重复尝试
-  })
-  ctx.src = _getLocalSrc(word)
-  // 只设 src，不 play → 触发系统缓存
-  _prePool.set(word, ctx)
-}
-
 /**
- * 播放单词发音（进卡 / 点击发音时调用）
- * 统一 soundEnabled 判断逻辑
+ * 播放单词发音（懒加载模式）
+ * 取消预加载池，直接走主流程
  */
 function playWordVoice(word) {
   if (!word) return
   const soundEnabled = wx.getStorageSync('soundEnabled')
-  // 统一判断：soundEnabled 必须严格等于 true 才播放
   if (soundEnabled !== true) return
 
   const ctx = _ensurePlayCtx()
-  const localSrc = _getLocalSrc(word)
+  if (!ctx) return // 正在销毁中
 
-  // 如果预加载池里标记为失败，直接跳过走主流程
-  const preloaded = _prePool.get(word)
-  if (preloaded === 'failed') {
-    console.log('[voice] 预加载已失败，跳过，直接加载主流程')
-  }
+  const localSrc = _getLocalSrc(word)
 
   if (_playWord === word && ctx.src === localSrc && _playMode === 'local') {
     // 已加载该词，直接从头播
@@ -143,21 +120,21 @@ function playWordVoice(word) {
     _pendingPlay = true
     try { ctx.stop() } catch (e) {}
     ctx.src = localSrc
-    // onCanplay 触发后自动 play
   }
 }
 
 /**
- * 预加载单词音频（切卡后延迟调用，不播放）
- * 写入预加载池，失败则标记为 'failed'
+ * 预加载单词音频（方案 B：移除预加载池，保留空接口兼容）
+ * 懒加载策略：取消预加载，改为用户交互时才加载
  */
 function preloadWordVoice(word) {
-  if (!word) return
-  const soundEnabled = wx.getStorageSync('soundEnabled')
-  if (soundEnabled !== true) return
-  _preloadInPool(word)
+  // 方案 B：不再预加载，保留空接口兼容旧代码
+  console.log('[voice] 预加载已禁用（懒加载模式）')
 }
 
+/**
+ * 停止当前播放
+ */
 function stopVoice() {
   _pendingPlay = false
   if (_playCtx) {
@@ -165,4 +142,30 @@ function stopVoice() {
   }
 }
 
-module.exports = { playWordVoice, preloadWordVoice, stopVoice }
+/**
+ * 清理资源（页面卸载时调用）
+ * 销毁 Context，重置所有状态
+ */
+function cleanup() {
+  console.log('[voice] cleanup: 销毁 AudioContext')
+  _isDestroying = true
+  _pendingPlay = false
+
+  if (_playCtx) {
+    try {
+      _playCtx.stop()
+      _playCtx.destroy()
+    } catch (e) {}
+    _playCtx = null
+  }
+
+  _playWord = null
+  _playMode = 'local'
+  _remoteRetryCount = 0
+
+  setTimeout(() => {
+    _isDestroying = false
+  }, 100)
+}
+
+module.exports = { playWordVoice, preloadWordVoice, stopVoice, cleanup }

@@ -29,11 +29,11 @@ Page({
   },
 
   onUnload() {
-    voice.stopVoice()
+    voice.cleanup()
   },
 
   onHide() {
-    voice.stopVoice()
+    voice.cleanup()
   },
 
   loadWords(level) {
@@ -88,16 +88,6 @@ Page({
 
     // 卡片渲染完成后再播放（延迟 500ms，确保分包 mp3 文件就绪）
     setTimeout(() => voice.playWordVoice(word.word), 500)
-
-    // 双向预加载：播完当前词后，预加载下一张 + 上一张（降低翻卡延迟）
-    setTimeout(() => {
-      if (index + 1 < words.length) {
-        voice.preloadWordVoice(words[index + 1].word)
-      }
-      if (index - 1 >= 0) {
-        voice.preloadWordVoice(words[index - 1].word)
-      }
-    }, 1500)
   },
 
   // 点击卡片翻转显示释义
