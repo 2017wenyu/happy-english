@@ -1,0 +1,72 @@
+<!--pages/poem_chain/poem_chain.wxml-->
+<view class="container">
+  <!-- 开始页 -->
+  <block wx:if="{{!isPlaying}}">
+    <view class="start-card">
+      <text class="start-icon">🔗</text>
+      <text class="start-title">古诗接龙</text>
+      <text class="start-desc">以上一句诗的最后一个字为开头，接下一句古诗</text>
+      
+      <view class="mode-btns">
+        <button class="mode-btn" bindtap="startGame" data-mode="single">
+          <text class="btn-icon">👤</text>
+          <text>单人挑战</text>
+        </button>
+        <button class="mode-btn" bindtap="startGame" data-mode="ai">
+          <text class="btn-icon">🤖</text>
+          <text>人机对战</text>
+        </button>
+      </view>
+      
+      <button class="back-btn" bindtap="goBack">返回</button>
+    </view>
+  </block>
+
+  <!-- 游戏页 -->
+  <block wx:if="{{isPlaying}}">
+    <view class="game-card">
+      <!-- 得分 -->
+      <view class="score-bar">
+        <text class="score-text">得分: {{score}}</text>
+        <text class="chain-text">接龙: {{chainCount}}轮</text>
+      </view>
+
+      <!-- 当前诗句 -->
+      <view class="current-line-box">
+        <text class="line-label">上一句</text>
+        <text class="line-text">{{currentLine.text}}</text>
+        <text class="line-poem">——《{{currentPoem.title}}》[{{currentPoem.dynasty}}] {{currentPoem.author}}</text>
+        <text class="last-char">尾字: {{currentLine.lastChar}}</text>
+      </view>
+
+      <!-- 接龙历史 -->
+      <scroll-view class="history-box" scroll-y wx:if="{{chainHistory.length > 0}}">
+        <text class="history-title">接龙记录</text>
+        <view class="history-item" wx:for="{{chainHistory}}" wx:key="index">
+          <text class="history-line">{{item.line}}</text>
+          <text class="history-poem">《{{item.poem}}》[{{item.dynasty}}] {{item.author}}</text>
+        </view>
+      </scroll-view>
+
+      <!-- 输入区 -->
+      <view class="input-area">
+        <input 
+          class="chain-input"
+          placeholder="请输入以{{currentLine.lastChar}}开头的诗句"
+          bindinput="onInput"
+          value="{{userInput}}"
+        />
+        <button class="submit-btn" bindtap="submitAnswer">接龙</button>
+      </view>
+
+      <!-- 提示 -->
+      <view class="hint-box" wx:if="{{showHint}}">
+        <text class="hint-text">{{hintText}}</text>
+      </view>
+      <button class="hint-btn" bindtap="getHint" wx:if="{{!showHint}}">💡 提示</button>
+
+      <!-- 返回 -->
+      <button class="back-btn" bindtap="goBack">结束游戏</button>
+    </view>
+  </block>
+</view>

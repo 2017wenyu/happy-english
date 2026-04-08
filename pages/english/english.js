@@ -77,5 +77,13 @@ Page({
 
   goMistakes() {
     wx.navigateTo({ url: '/pages/mistakes/mistakes?subject=english' })
+  },
+
+  goWordList(e) {
+    const filter = e.currentTarget.dataset.filter || 'all'
+    const level = e.currentTarget.dataset.level || ''
+    let url = `/pages/word_list/word_list?subject=english&filter=${filter}`
+    if (level) url += `&level=${level}`
+    wx.navigateTo({ url })
   }
 })

@@ -1,0 +1,112 @@
+<view class="container" wx:if="{{poet}}">
+
+  <!-- 顶部诗人 Hero 卡片 -->
+  <view class="hero" style="background: {{poet.gradient}}">
+    <view class="hero-avatar">{{poet.avatar}}</view>
+    <view class="hero-info">
+      <view class="hero-name-row">
+        <text class="hero-name">{{poet.name}}</text>
+        <text class="hero-dynasty">{{poet.dynasty}}代</text>
+      </view>
+      <text class="hero-title">「{{poet.title}}」</text>
+      <text class="hero-years">{{poet.years}}</text>
+    </view>
+    <!-- 统计：代表作数量 -->
+    <view class="hero-stat" bindtap="goWorksList">
+      <text class="hero-stat-num">{{works.length}}</text>
+      <text class="hero-stat-label">代表作</text>
+    </view>
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tab-bar">
+    <view
+      class="tab-item {{activeTab === 'bio' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="bio"
+    >
+      <text>生平简介</text>
+    </view>
+    <view
+      class="tab-item {{activeTab === 'works' ? 'active' : ''}}"
+      bindtap="switchTab"
+      data-tab="works"
+    >
+      <text>代表作品</text>
+      <text class="tab-count">{{works.length}}</text>
+    </view>
+  </view>
+
+  <!-- 生平简介 Tab -->
+  <view class="tab-content" wx:if="{{activeTab === 'bio'}}">
+    <!-- 简介正文 -->
+    <view class="bio-card">
+      <view class="bio-section-title">
+        <text class="bio-section-icon">📖</text>
+        <text>生平简介</text>
+      </view>
+      <text class="bio-text">{{poet.bio}}</text>
+    </view>
+
+    <!-- 诗词风格 -->
+    <view class="bio-card">
+      <view class="bio-section-title">
+        <text class="bio-section-icon">✍️</text>
+        <text>诗词风格</text>
+      </view>
+      <text class="bio-style">{{poet.style}}</text>
+    </view>
+
+    <!-- 快捷入口：查看代表作 -->
+    <view class="go-works-btn" bindtap="switchTab" data-tab="works">
+      <text>查看 {{works.length}} 首代表作</text>
+      <text class="go-works-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 代表作 Tab -->
+  <view class="tab-content" wx:if="{{activeTab === 'works'}}">
+
+    <!-- 查看该作者全部诗词 -->
+    <view class="all-poems-entry" bindtap="goWorksList">
+      <text class="all-poems-text">📚 查看《{{poet.name}}》全部诗词列表</text>
+      <text class="all-poems-arrow">›</text>
+    </view>
+
+    <!-- 代表作列表 -->
+    <view class="work-list">
+      <view
+        wx:for="{{works}}"
+        wx:key="id"
+        class="work-card {{item.isMastered ? 'mastered' : ''}}"
+        bindtap="goPoetPoems"
+        data-id="{{item.id}}"
+      >
+        <!-- 序号 -->
+        <view class="work-index">{{index + 1}}</view>
+
+        <!-- 正文 -->
+        <view class="work-body">
+          <view class="work-title-row">
+            <text class="work-title">{{item.title}}</text>
+            <text wx:if="{{item.isCi}}" class="work-type-tag ci">词</text>
+            <text wx:else class="work-type-tag shi">诗</text>
+          </view>
+          <text class="work-preview">{{item.preview}}</text>
+          <text class="work-info">{{item.dynasty}}·{{item.author}} | {{item.content.length}}句</text>
+        </view>
+
+        <!-- 掌握状态按钮 -->
+        <view
+          class="work-mastered-btn {{item.isMastered ? 'done' : ''}}"
+          catchtap="toggleMastered"
+          data-id="{{item.id}}"
+          data-mastered="{{item.isMastered}}"
+        >
+          <text>{{item.isMastered ? '✓' : '○'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+</view>

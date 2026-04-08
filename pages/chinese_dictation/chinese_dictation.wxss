@@ -79,13 +79,36 @@
 }
 
 .repeat-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
   background: #FFF0F0;
   color: #F5222D;
-  border-radius: 20rpx;
+  border-radius: 32rpx;
   font-size: 28rpx;
   font-weight: 500;
-  padding: 18rpx 40rpx;
+  padding: 20rpx 48rpx;
   border: 2rpx solid #FFD6D6;
+  transition: all 0.2s;
+}
+
+.repeat-btn.playing {
+  background: #FFE4E4;
+  color: #FF7A45;
+  border-color: #FF7A45;
+}
+
+.repeat-btn[disabled] {
+  opacity: 0.7;
+}
+
+.repeat-btn .btn-icon {
+  font-size: 32rpx;
+}
+
+.repeat-btn .btn-text {
+  font-size: 28rpx;
 }
 
 /* 输入区 */

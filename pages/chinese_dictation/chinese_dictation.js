@@ -16,8 +16,11 @@ Page({
     batchCorrect: 0,
     score: 0,
     batchPct: 0,
-    showRepeatHint: false,   // 提示"已重复播报"
+    isPlaying: false,      // 语音播放状态（与古诗页面一致）
   },
+  
+  // 音频上下文（用于清理）
+  audioCtx: null,
 
   onLoad(options) {
     const grade = options.grade || 'grade1'
@@ -30,7 +33,22 @@ Page({
   },
 
   onUnload() {
-    // 页面卸载时停止任何语音播报（兼容性处理）
+    // 页面卸载时清理音频资源
+    this._cleanupAudio()
+  },
+
+  onHide() {
+    // 页面隐藏时停止播放
+    this._cleanupAudio()
+  },
+
+  // 清理音频资源
+  _cleanupAudio() {
+    if (this.audioCtx) {
+      this.audioCtx.destroy()
+      this.audioCtx = null
+    }
+    this.setData({ isPlaying: false })
   },
 
   _startBatch() {
@@ -63,7 +81,6 @@ Page({
       answered: false,
       isCorrect: false,
       questionIndex: idx,
-      showRepeatHint: false,
       // 预计算显示字段，避免WXML中调用方法
       displayChar: char,
       displayPinyin: current ? current.pinyin : '',
@@ -74,60 +91,156 @@ Page({
     setTimeout(() => this._speak(current), 600)
   },
 
+  // 语音合成（与古诗页面一致：微信原生优先，降级到网络源）
   _speak(word) {
     if (!word) return
-    // 从本地存储读取音效设置（与 profile 页面保持一致）
+    
+    // 从本地存储读取音效设置
     const soundEnabled = wx.getStorageSync('soundEnabled') !== false
-    if (soundEnabled === false) return
+    if (!soundEnabled) return
     
     const groups = word.groups || word.group || []
+    // 播报格式："请写出读音为 [拼音] 的汉字，组词：[词语1]，[词语2]"
     const text = `请写出读音为 ${word.pinyin} 的汉字，组词：${groups.join('，')}`
     
-    // 方法1：尝试使用微信语音合成（基础库 2.19.2+）
+    this.setData({ isPlaying: true })
+    this.speakText(text, () => {
+      this.setData({ isPlaying: false })
+    })
+  },
+
+  // 语音合成（与 poem_read.js 保持一致）
+  speakText(text, onComplete) {
+    if (!text) return
+    
+    const soundEnabled = wx.getStorageSync('soundEnabled') !== false
+    if (!soundEnabled) {
+      onComplete && onComplete()
+      return
+    }
+
+    console.log('[语音播报] 开始:', text)
+
+    // 优先使用微信原生语音合成
     if (wx.createSpeechSynthesizer) {
       try {
         const synthesizer = wx.createSpeechSynthesizer()
-        synthesizer.speak({ content: text })
-        console.log('[语音播报] 使用 SpeechSynthesizer:', text)
+        let hasCompleted = false
+        
+        synthesizer.speak({
+          content: text,
+          lang: 'zh_CN',
+          success: (res) => {
+            console.log('[语音播报] 微信语音成功:', res)
+            const duration = res?.duration || 2000
+            setTimeout(() => {
+              if (!hasCompleted) {
+                hasCompleted = true
+                onComplete && onComplete()
+              }
+            }, duration + 200)
+          },
+          fail: (err) => {
+            console.error('[语音播报] 微信语音失败:', err)
+            if (!hasCompleted) {
+              hasCompleted = true
+              this.speakWithBaidu(text, onComplete)
+            }
+          }
+        })
+        
+        // 设置超时保护
+        setTimeout(() => {
+          if (!hasCompleted) {
+            hasCompleted = true
+            onComplete && onComplete()
+          }
+        }, 10000)
+        
         return
       } catch (e) {
-        console.error('[语音播报] SpeechSynthesizer 失败:', e)
+        console.error('[语音播报] 语音合成异常:', e)
       }
     }
     
-    // 方法2：使用百度语音合成 API（更可靠）
-    this._speakWithBaidu(text, word.pinyin)
+    // 降级到网络语音源
+    this.speakWithBaidu(text, onComplete)
   },
 
-  // 百度语音合成（备用方案）
-  _speakWithBaidu(text, fallbackPinyin) {
-    const audioCtx = wx.createInnerAudioContext()
-    // 使用百度语音合成 API
+  // 网络语音合成（多源备用，与 poem_read.js 一致）
+  speakWithBaidu(text, onComplete) {
     const encodedText = encodeURIComponent(text)
-    const baiduUrl = `https://tts.baidu.com/text2audio?tex=${encodedText}&cuid=miniapp&ctp=1&lan=zh&spd=5&pit=5&vol=15&per=0`
     
-    audioCtx.src = baiduUrl
-    audioCtx.volume = 1.0
+    // 多个备用语音API
+    const urls = [
+      `https://tts.baidu.com/text2audio?tex=${encodedText}&cuid=miniapp&ctp=1&lan=zh&spd=4&pit=5&vol=15&per=0`,
+      `https://dict.youdao.com/dictvoice?type=0&audio=${encodedText}`,
+      `https://fanyi.baidu.com/gettts?lan=zh&text=${encodedText}&spd=3&source=web`,
+    ]
     
-    audioCtx.onPlay(() => {
-      console.log('[语音播报] 百度语音开始播放')
-    })
+    let currentUrlIndex = 0
+    let hasCompleted = false
     
-    audioCtx.onError((err) => {
-      console.error('[语音播报] 百度语音失败:', err)
-      // 降级：显示拼音提示
-      wx.showToast({ title: `${fallbackPinyin}`, icon: 'none', duration: 2000 })
-    })
+    const cleanup = () => {
+      if (this.audioCtx) {
+        this.audioCtx.destroy()
+        this.audioCtx = null
+      }
+    }
     
-    audioCtx.play()
+    const tryNextUrl = () => {
+      if (hasCompleted) return
+      
+      if (currentUrlIndex >= urls.length) {
+        // 所有URL都失败，静默完成
+        hasCompleted = true
+        cleanup()
+        onComplete && onComplete()
+        return
+      }
+      
+      // 销毁旧的 audioCtx
+      cleanup()
+      
+      // 创建新的 audioCtx
+      this.audioCtx = wx.createInnerAudioContext()
+      const currentUrl = urls[currentUrlIndex++]
+      
+      this.audioCtx.onCanplay(() => {
+        if (hasCompleted) return
+        this.audioCtx.play()
+      })
+      
+      this.audioCtx.onEnded(() => {
+        if (hasCompleted) return
+        hasCompleted = true
+        cleanup()
+        onComplete && onComplete()
+      })
+      
+      this.audioCtx.onError((err) => {
+        console.error('[语音播报] 播放失败:', currentUrl, err)
+        tryNextUrl()
+      })
+      
+      // 设置超时
+      setTimeout(() => {
+        if (!hasCompleted) {
+          tryNextUrl()
+        }
+      }, 5000)
+      
+      this.audioCtx.src = currentUrl
+    }
+    
+    // 开始尝试第一个URL
+    tryNextUrl()
   },
 
   repeatSpeak() {
-    const { current } = this.data
-    if (!current) return
-    this.setData({ showRepeatHint: true })
+    const { current, isPlaying } = this.data
+    if (!current || isPlaying) return
     this._speak(current)
-    setTimeout(() => this.setData({ showRepeatHint: false }), 2000)
   },
 
   onInput(e) {

@@ -36,8 +36,22 @@
     <!-- 进度小卡片 -->
     <view class="progress-bar-wrap">
       <view class="progress-info">
-        <text class="progress-text">已掌握 {{masteredCount}} / {{wordCount}} 个生字</text>
-        <text class="progress-pct">{{wordCount > 0 ? masteredPct : 0}}%</text>
+        <view class="progress-stat-row">
+          <view class="progress-stat-item" bindtap="goWordList" data-filter="all">
+            <text class="progress-stat-num" style="color:#4876FF">{{wordCount}}</text>
+            <text class="progress-stat-label">本册生字</text>
+          </view>
+          <text class="progress-divider">·</text>
+          <view class="progress-stat-item" bindtap="goWordList" data-filter="mastered">
+            <text class="progress-stat-num" style="color:#52C41A">{{masteredCount}}</text>
+            <text class="progress-stat-label">已掌握</text>
+          </view>
+          <text class="progress-divider">·</text>
+          <view class="progress-stat-item">
+            <text class="progress-stat-num" style="color:#FA8C16">{{wordCount > 0 ? masteredPct : 0}}%</text>
+            <text class="progress-stat-label">掌握率</text>
+          </view>
+        </view>
       </view>
       <progress
         percent="{{wordCount > 0 ? masteredCount * 100 / wordCount : 0}}"

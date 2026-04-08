@@ -36,7 +36,13 @@
   <view class="total-progress-card">
     <view class="progress-info">
       <text class="progress-title">总体掌握进度</text>
-      <text class="progress-count">{{totalMastered}} / {{totalWords}}</text>
+      <view class="progress-stat-row">
+        <view class="progress-stat-clickable" bindtap="goWordList" data-filter="mastered" data-level="">
+          <text class="progress-count-num green">{{totalMastered}}</text>
+          <text class="progress-count-sep">/</text>
+          <text class="progress-count-num">{{totalWords}}</text>
+        </view>
+      </view>
     </view>
     <progress percent="{{totalMasteredPct}}" stroke-width="12"
       activeColor="#4A90D9" backgroundColor="#E8F0FD" active border-radius="8" />
@@ -58,7 +64,15 @@
           <text class="level-name">{{item.name}}</text>
           <text class="level-desc">{{item.desc}}</text>
         </view>
-        <text class="level-count" style="color: {{item.color}}">{{item.mastered}}/{{item.total}}</text>
+        <view
+          class="level-count-wrap"
+          catchtap="goWordList"
+          data-filter="all"
+          data-level="{{item.key}}"
+        >
+          <text class="level-count" style="color: {{item.color}}">{{item.mastered}}</text>
+          <text class="level-count-sep" style="color: {{item.color}}60">/{{item.total}}</text>
+        </view>
       </view>
       <progress percent="{{item.progress}}" stroke-width="8"
         activeColor="{{item.color}}" backgroundColor="#F0F0F0" border-radius="4" />

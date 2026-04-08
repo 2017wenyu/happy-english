@@ -1,0 +1,104 @@
+<!--pages/poem_write/poem_write.wxml-->
+<view class="container">
+  <!-- 游戏区域 -->
+  <block wx:if="{{!isComplete && currentPoem}}">
+    <view class="game-card">
+      <!-- 进度 -->
+      <text class="progress-text">第 {{currentIndex + 1}} / {{poems.length}} 首</text>
+      
+      <!-- 题目信息 -->
+      <view class="poem-header">
+        <text class="poem-title">{{currentPoem.title}}</text>
+        <text class="poem-author">[{{currentPoem.dynasty}}] {{currentPoem.author}}</text>
+      </view>
+
+      <!-- 填空模式 -->
+      <block wx:if="{{mode === 'fill'}}">
+        <view class="fill-area">
+          <view class="poem-lines">
+            <view class="poem-line" wx:for="{{poemLines}}" wx:key="lineIdx" wx:for-index="lineIdx">
+              <block wx:for="{{item.chars}}" wx:key="charIdx" wx:for-index="charIdx" wx:for-item="charItem">
+                <block wx:if="{{charItem.isBlank}}">
+                  <view 
+                    class="blank-box {{showAnswer ? (charItem.isCorrect ? 'correct' : 'wrong') : ''}} {{selectedBlankIndex === charItem.blankIndex ? 'selected' : ''}}"
+                    data-index="{{charItem.blankIndex}}"
+                    bindtap="selectBlank"
+                  >
+                    <text class="blank-text">{{charItem.userInput}}</text>
+                  </view>
+                </block>
+                <block wx:else>
+                  <text class="poem-char">{{charItem.char}}</text>
+                </block>
+              </block>
+            </view>
+          </view>
+        </view>
+
+        <!-- 字库区域 -->
+        <view class="char-bank-area" wx:if="{{!showAnswer}}">
+          <view class="char-bank-header">
+            <text class="char-bank-title">点击下方字填入空格</text>
+            <text class="char-bank-clear" bindtap="clearBlank" wx:if="{{selectedBlankIndex !== -1}}">清空当前</text>
+          </view>
+          <view class="char-bank">
+            <view 
+              class="char-bank-item {{item.used ? 'used' : ''}}"
+              wx:for="{{charBank}}"
+              wx:key="index"
+              data-char="{{item}}"
+              bindtap="selectCharFromBank"
+            >{{item}}</view>
+          </view>
+        </view>
+      </block>
+
+      <!-- 全篇模式 -->
+      <block wx:if="{{mode === 'full'}}">
+        <view class="full-area">
+          <textarea 
+            class="full-input"
+            placeholder="请默写完整古诗（包括标题、作者和诗句）"
+            bindinput="onFullInput"
+            value="{{fullInput}}"
+            disabled="{{showAnswer}}"
+          />
+        </view>
+        
+        <!-- 显示答案 -->
+        <view class="answer-area" wx:if="{{showAnswer}}">
+          <text class="answer-title">参考答案：</text>
+          <text class="answer-content">{{currentPoem.title}}</text>
+          <text class="answer-content">[{{currentPoem.dynasty}}] {{currentPoem.author}}</text>
+          <text class="answer-content" wx:for="{{currentPoem.content}}" wx:key="index">{{item}}</text>
+        </view>
+      </block>
+
+      <!-- 结果展示 -->
+      <view class="result-area" wx:if="{{showAnswer}}">
+        <text class="score-text">得分：{{score}}分</text>
+        <text class="result-hint" wx:if="{{score === 100}}">🎉 完美！</text>
+        <text class="result-hint" wx:elif="{{score >= 80}}">👍 不错！</text>
+        <text class="result-hint" wx:elif="{{score >= 60}}">💪 继续加油！</text>
+        <text class="result-hint" wx:else>📚 再试一次吧</text>
+      </view>
+
+      <!-- 按钮 -->
+      <view class="btn-area">
+        <button class="submit-btn" bindtap="submitAnswer" wx:if="{{!showAnswer}}">提交答案</button>
+        <button class="next-btn" bindtap="nextPoem" wx:if="{{showAnswer && score < 100}}">下一首</button>
+      </view>
+    </view>
+  </block>
+
+  <!-- 完成页面 -->
+  <view class="complete-card" wx:if="{{isComplete}}">
+    <text class="complete-icon">🎉</text>
+    <text class="complete-title">恭喜完成！</text>
+    <text class="complete-sub">你已经完成了本组所有古诗的默写练习</text>
+    <view class="complete-btns">
+      <button class="complete-btn btn-restart" bindtap="restart">再玩一次</button>
+      <button class="complete-btn btn-back" bindtap="goBack">返回主页</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,108 @@
+<!--pages/poem_read/poem_read.wxml-->
+<view class="container">
+  <!-- 古诗介绍页 -->
+  <block wx:if="{{stage === 'intro'}}">
+    <view class="intro-card" wx:if="{{currentPoem}}">
+      <text class="poem-number">第 {{currentIndex + 1}} / {{poems.length}} 首</text>
+      <text class="poem-title">{{currentPoem.title}}</text>
+      <text class="poem-author">[{{currentPoem.dynasty}}] {{currentPoem.author}}</text>
+      
+      <view class="poem-preview">
+        <text class="preview-line" wx:for="{{currentPoem.content}}" wx:key="index">{{item}}</text>
+      </view>
+      
+      <view class="poem-info">
+        <text class="info-title">📖 译文</text>
+        <text class="info-text">{{currentPoem.translation}}</text>
+      </view>
+      
+      <view class="poem-keywords">
+        <text class="keyword-tag" wx:for="{{currentPoem.keywords}}" wx:key="index">{{item}}</text>
+      </view>
+      
+      <!-- 切换古诗按钮 -->
+      <view class="nav-btns">
+        <button class="nav-btn btn-prev {{currentIndex === 0 ? 'btn-disabled' : ''}}" bindtap="prevPoem" disabled="{{currentIndex === 0}}">
+          <text>⬅️ 前一首</text>
+        </button>
+        <button class="nav-btn btn-next {{currentIndex === poems.length - 1 ? 'btn-disabled' : ''}}" bindtap="nextPoem" disabled="{{currentIndex === poems.length - 1}}">
+          <text>后一首 ➡️</text>
+        </button>
+      </view>
+      
+      <button class="mark-btn" bindtap="markAsDontKnow">
+        <text class="btn-icon">📝</text>
+        <text>暂存到错题本</text>
+      </button>
+      
+      <button class="start-btn" bindtap="startReading">
+        <text class="btn-icon">🔊</text>
+        <text>开始跟读</text>
+      </button>
+    </view>
+  </block>
+
+  <!-- 跟读页 -->
+  <block wx:if="{{stage === 'read'}}">
+    <view class="read-card" wx:if="{{currentPoem}}">
+      <text class="progress-text">{{readingLine + 1}} / {{currentPoem.content.length}}</text>
+      
+      <view class="poem-display">
+        <text class="poem-title-lg">{{currentPoem.title}}</text>
+        <text class="poem-author-lg">[{{currentPoem.dynasty}}] {{currentPoem.author}}</text>
+        
+        <!-- 所有诗句，当前行高亮 -->
+        <view class="lines-wrap">
+          <view 
+            class="line-item {{index === readingLine ? 'line-active' : ''}} {{index < readingLine ? 'line-done' : ''}}"
+            wx:for="{{currentPoem.content}}"
+            wx:key="index"
+          >
+            <text class="line-text">{{item}}</text>
+            <text class="line-pinyin" wx:if="{{index === readingLine}}">{{currentPoem.pinyin[index]}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 控制按钮 -->
+      <view class="control-btns">
+        <button class="ctrl-btn {{readingLine === 0 ? 'btn-disabled' : ''}}" bindtap="prevLine" disabled="{{readingLine === 0}}">
+          <text>⬅️ 上一句</text>
+        </button>
+        <button class="ctrl-btn btn-replay" bindtap="replayLine">
+          <text>🔊 重播</text>
+        </button>
+        <button class="ctrl-btn btn-next" bindtap="nextLine">
+          <text>{{readingLine < currentPoem.content.length - 1 ? '下一句 ➡️' : '完成 ✅'}}</text>
+        </button>
+      </view>
+      
+      <!-- 提示 -->
+      <view class="read-tip">
+        <text class="tip-icon">💡</text>
+        <text class="tip-text">跟着语音朗读，感受古诗的韵律美</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- 完成结果页 -->
+  <block wx:if="{{showResult}}">
+    <view class="result-card">
+      <text class="result-icon">🎉</text>
+      <text class="result-title">太棒了！</text>
+      <text class="result-sub">已完成本册 {{poems.length}} 首古诗跟读</text>
+      
+      <view class="result-stats">
+        <view class="result-item">
+          <text class="result-num">{{completedPoems.length}}</text>
+          <text class="result-label">已掌握</text>
+        </view>
+      </view>
+      
+      <view class="result-btns">
+        <button class="result-btn btn-restart" bindtap="restart">再读一次</button>
+        <button class="result-btn btn-back" bindtap="goBack">返回主页</button>
+      </view>
+    </view>
+  </block>
+</view>

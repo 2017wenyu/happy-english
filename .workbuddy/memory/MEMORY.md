@@ -20,7 +20,15 @@
 - `pages/chinese_dictation`：听写默写（语音播报 + 大号输入框）
 - `pages/chinese_compose`：组词填空（挖空词语模板）
 
-古诗学习 / 成语学习：暂为占位入口，点击显示"敬请期待"
+- `pages/poem`：**古诗学习主页**（年级学期选择 + 5种玩法入口）✅ 已上线
+- `pages/poem_read`：古诗跟读（语音朗读 + 逐句跟读 + 拼音显示）
+- `pages/poem_puzzle`：诗句拼图（打乱顺序拼接）
+- `pages/poem_write`：古诗默写（填空模式 + 全篇默写）
+- `pages/poem_chain`：古诗接龙（以上句尾字接下句）
+- `pages/poets`：**诗人馆列表**（12位著名诗人卡片，朝代筛选）✅ 2026-04-08
+- `pages/poet_detail`：**诗人详情**（生平简介 + 代表作 Tab + 跳转诗词列表）✅ 2026-04-08
+
+成语学习：暂为占位入口，点击显示"敬请期待"
 
 ## UI 风格约定
 
@@ -60,5 +68,19 @@
 ## 其他配置
 
 - `app.json` 已添加 `"lazyCodeLoading": "requiredComponents"`
-- TabBar：首页（home）/ 错题本（mistake）/ 我的（profile）
+- TabBar：首页（home）/ 我的（profile）
+
+## 古诗数据
+
+- **data/poems.js**：收录160首小学生必背古诗词（75首核心必背 + 80首拓展必背 + 原有补充）
+- **75首核心必背**：贴合新课标要求，覆盖1-6年级课本内容
+- **80首拓展必背**：分低年级/中年级/高年级三档，包含经典宋词、毛泽东诗词、汉魏六朝诗歌、古文名篇等
+- 每首诗包含：id, title, author, dynasty, content, pinyin, translation, keywords, imageDesc, difficulty, emotion
+- 数据结构：
+  - `GRADE1_TERM1` ~ `GRADE6_TERM2`：12个年级学期数组
+  - `EXTENSION_POEMS`：80首拓展诗歌数组
+  - `POEMS_MAP`：数据映射表，含 `extension: { all: EXTENSION_POEMS }`
+- 工具函数：`getPoems()`, `getPoemCount()`, `getTotalPoemCount()`, `getPoemById()`, `getRandomPoems()`, `getAllLines()`, `findLinesByChar()`, `getExtensionPoems()`, `getAllPoems()`
+- 所有古诗页面必须显示朝代和作者 `[唐] 李白`
+- 语音朗读时先读朝代、作者和诗名，再读诗句
 

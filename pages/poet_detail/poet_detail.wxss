@@ -1,0 +1,343 @@
+/* pages/poet_detail/poet_detail.wxss */
+page {
+  background: #F5F8FF;
+}
+
+.container {
+  min-height: 100vh;
+  background: #F5F8FF;
+}
+
+/* ===== Hero 卡片 ===== */
+.hero {
+  padding: 40rpx 36rpx 52rpx;
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+  position: relative;
+}
+
+.hero-avatar {
+  font-size: 72rpx;
+  width: 120rpx;
+  height: 120rpx;
+  background: rgba(255,255,255,0.2);
+  border-radius: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+  text-align: center;
+  padding-top: 12rpx;
+}
+
+.hero-info {
+  flex: 1;
+}
+
+.hero-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+}
+
+.hero-name {
+  font-size: 52rpx;
+  font-weight: bold;
+  color: #fff;
+}
+
+.hero-dynasty {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.75);
+  background: rgba(255,255,255,0.2);
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.hero-title {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.9);
+  display: block;
+  margin-top: 6rpx;
+  font-style: italic;
+}
+
+.hero-years {
+  font-size: 22rpx;
+  color: rgba(255,255,255,0.7);
+  display: block;
+  margin-top: 6rpx;
+}
+
+.hero-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255,255,255,0.18);
+  padding: 16rpx 24rpx;
+  border-radius: 20rpx;
+  flex-shrink: 0;
+}
+
+.hero-stat-num {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.hero-stat-label {
+  font-size: 20rpx;
+  color: rgba(255,255,255,0.8);
+  margin-top: 4rpx;
+}
+
+/* ===== Tab 栏 ===== */
+.tab-bar {
+  background: #fff;
+  display: flex;
+  border-bottom: 2rpx solid #F0F0F0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 28rpx 0;
+  font-size: 28rpx;
+  color: #999;
+  position: relative;
+}
+
+.tab-item.active {
+  color: #4876FF;
+  font-weight: 600;
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 25%;
+  width: 50%;
+  height: 4rpx;
+  background: linear-gradient(90deg, #4876FF, #722ED1);
+  border-radius: 2rpx;
+}
+
+.tab-count {
+  font-size: 22rpx;
+  background: #4876FF;
+  color: #fff;
+  padding: 2rpx 10rpx;
+  border-radius: 20rpx;
+  line-height: 1.4;
+}
+
+/* ===== Tab 内容区域 ===== */
+.tab-content {
+  padding: 24rpx 24rpx 60rpx;
+}
+
+/* 生平简介 */
+.bio-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 32rpx 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(72,118,255,0.06);
+}
+
+.bio-section-title {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.bio-section-title text:last-child {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.bio-section-icon {
+  font-size: 32rpx;
+}
+
+.bio-text {
+  font-size: 27rpx;
+  color: #555;
+  line-height: 1.8;
+  display: block;
+}
+
+.bio-style {
+  font-size: 27rpx;
+  color: #4876FF;
+  line-height: 1.8;
+  display: block;
+  font-weight: 500;
+}
+
+/* 查看代表作按钮 */
+.go-works-btn {
+  background: linear-gradient(135deg, #4876FF, #722ED1);
+  color: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 28rpx;
+  font-weight: 600;
+  margin-top: 8rpx;
+}
+
+.go-works-arrow {
+  font-size: 48rpx;
+  font-weight: 300;
+  line-height: 1;
+}
+
+/* ===== 代表作 Tab ===== */
+.all-poems-entry {
+  background: linear-gradient(135deg, #4876FF15, #722ED115);
+  border: 2rpx solid #4876FF40;
+  border-radius: 20rpx;
+  padding: 24rpx 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+}
+
+.all-poems-text {
+  font-size: 26rpx;
+  color: #4876FF;
+  font-weight: 500;
+}
+
+.all-poems-arrow {
+  font-size: 40rpx;
+  color: #4876FF80;
+}
+
+/* 作品列表 */
+.work-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.work-card {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 24rpx 20rpx;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(72,118,255,0.06);
+  border: 2rpx solid transparent;
+  transition: border-color 0.2s;
+}
+
+.work-card.mastered {
+  border-color: #52C41A30;
+  background: #FCFFF7;
+}
+
+/* 序号 */
+.work-index {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: #F0F3FF;
+  color: #4876FF;
+  font-size: 22rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* 正文 */
+.work-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.work-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  margin-bottom: 6rpx;
+}
+
+.work-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.work-type-tag {
+  font-size: 18rpx;
+  padding: 2rpx 10rpx;
+  border-radius: 8rpx;
+  font-weight: 500;
+}
+
+.work-type-tag.shi {
+  background: #4876FF15;
+  color: #4876FF;
+}
+
+.work-type-tag.ci {
+  background: #722ED115;
+  color: #722ED1;
+}
+
+.work-preview {
+  font-size: 24rpx;
+  color: #888;
+  display: block;
+  margin-bottom: 6rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.work-info {
+  font-size: 20rpx;
+  color: #CCC;
+  display: block;
+}
+
+/* 掌握状态按钮 */
+.work-mastered-btn {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 50%;
+  border: 2rpx solid #D9D9D9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 24rpx;
+  color: #CCC;
+}
+
+.work-mastered-btn.done {
+  background: #52C41A;
+  border-color: #52C41A;
+  color: #fff;
+  font-size: 26rpx;
+}

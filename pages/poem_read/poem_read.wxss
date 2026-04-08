@@ -1,0 +1,352 @@
+/* pages/poem_read/poem_read.wxss */
+.container {
+  min-height: 100vh;
+  background: #F9F5FF;
+  padding: 30rpx;
+}
+
+/* 介绍卡片 */
+.intro-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(114,46,209,0.08);
+}
+
+.poem-number {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 16rpx;
+}
+
+.poem-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.poem-author {
+  display: block;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+}
+
+.poem-preview {
+  background: #F9F5FF;
+  padding: 30rpx;
+  border-radius: 16rpx;
+  margin-bottom: 30rpx;
+}
+
+.preview-line {
+  display: block;
+  font-size: 32rpx;
+  color: #333;
+  line-height: 1.8;
+  text-align: center;
+}
+
+.poem-info {
+  margin-bottom: 24rpx;
+}
+
+.info-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #722ED1;
+  margin-bottom: 12rpx;
+}
+
+.info-text {
+  font-size: 26rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+.poem-keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  margin-bottom: 40rpx;
+}
+
+.keyword-tag {
+  background: #F0E6FF;
+  color: #722ED1;
+  font-size: 24rpx;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+}
+
+.start-btn {
+  background: linear-gradient(135deg, #9254DE, #722ED1);
+  color: #fff;
+  font-size: 32rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon {
+  margin-right: 12rpx;
+}
+
+/* 暂存按钮 */
+.mark-btn {
+  background: #FFF1F0;
+  color: #FF4D4F;
+  font-size: 30rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  border-radius: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20rpx;
+  border: 2rpx solid #FFA39E;
+}
+
+/* 切换古诗按钮 */
+.nav-btns {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.nav-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  border-radius: 40rpx;
+  background: #F5F5F5;
+  color: #666;
+  padding: 0;
+}
+
+.nav-btn.btn-prev {
+  background: #FFF7E6;
+  color: #FA8C16;
+}
+
+.nav-btn.btn-next {
+  background: #E6F7FF;
+  color: #1890FF;
+}
+
+.nav-btn.btn-disabled {
+  opacity: 0.4;
+}
+
+/* 跟读卡片 */
+.read-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 20rpx rgba(114,46,209,0.08);
+}
+
+.progress-text {
+  display: block;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 20rpx;
+}
+
+.poem-display {
+  margin-bottom: 40rpx;
+}
+
+.poem-title-lg {
+  display: block;
+  text-align: center;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.poem-author-lg {
+  display: block;
+  text-align: center;
+  font-size: 26rpx;
+  color: #666;
+  margin-bottom: 30rpx;
+}
+
+.lines-wrap {
+  background: #F9F5FF;
+  padding: 30rpx;
+  border-radius: 16rpx;
+}
+
+.line-item {
+  padding: 20rpx 0;
+  text-align: center;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+
+.line-active {
+  opacity: 1;
+  background: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 12rpx rgba(114,46,209,0.1);
+}
+
+.line-done {
+  opacity: 0.7;
+}
+
+.line-text {
+  display: block;
+  font-size: 36rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.line-pinyin {
+  display: block;
+  font-size: 24rpx;
+  color: #722ED1;
+  margin-top: 8rpx;
+}
+
+/* 控制按钮 */
+.control-btns {
+  display: flex;
+  gap: 16rpx;
+  margin-bottom: 30rpx;
+}
+
+.ctrl-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 26rpx;
+  border-radius: 40rpx;
+  background: #F5F5F5;
+  color: #666;
+  padding: 0;
+}
+
+.btn-replay {
+  background: linear-gradient(135deg, #9254DE, #722ED1);
+  color: #fff;
+}
+
+.btn-next {
+  background: linear-gradient(135deg, #52C41A, #389E0D);
+  color: #fff;
+}
+
+.btn-disabled {
+  opacity: 0.4;
+}
+
+/* 提示 */
+.read-tip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #FFFBE6;
+  padding: 20rpx;
+  border-radius: 12rpx;
+}
+
+.tip-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.tip-text {
+  font-size: 24rpx;
+  color: #D48806;
+}
+
+/* 结果卡片 */
+.result-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 60rpx 40rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 20rpx rgba(114,46,209,0.08);
+}
+
+.result-icon {
+  font-size: 100rpx;
+  display: block;
+  margin-bottom: 20rpx;
+}
+
+.result-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.result-sub {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+}
+
+.result-stats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50rpx;
+}
+
+.result-item {
+  text-align: center;
+}
+
+.result-num {
+  display: block;
+  font-size: 64rpx;
+  font-weight: bold;
+  color: #722ED1;
+}
+
+.result-label {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.result-btns {
+  display: flex;
+  gap: 24rpx;
+}
+
+.result-btn {
+  flex: 1;
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  border-radius: 44rpx;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.btn-restart {
+  background: linear-gradient(135deg, #9254DE, #722ED1);
+  color: #fff;
+}
+
+.btn-back {
+  background: #F5F5F5;
+  color: #666;
+}

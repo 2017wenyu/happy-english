@@ -1,0 +1,182 @@
+/* pages/poets/poets.wxss */
+page {
+  background: #F5F8FF;
+}
+
+.container {
+  min-height: 100vh;
+  background: #F5F8FF;
+}
+
+/* Banner */
+.banner {
+  background: linear-gradient(135deg, #4876FF, #722ED1);
+  padding: 48rpx 40rpx 56rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.banner-title {
+  font-size: 52rpx;
+  font-weight: bold;
+  color: #fff;
+  letter-spacing: 4rpx;
+}
+
+.banner-sub {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.8);
+  margin-top: 12rpx;
+}
+
+/* 筛选 */
+.filter-scroll {
+  width: 100%;
+  white-space: nowrap;
+}
+
+.filter-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 28rpx 32rpx 16rpx;
+}
+
+.filter-tag {
+  padding: 10rpx 28rpx;
+  border-radius: 40rpx;
+  font-size: 26rpx;
+  color: #666;
+  background: #fff;
+  border: 2rpx solid #E8E8E8;
+  transition: all 0.2s;
+}
+
+.filter-tag.active {
+  background: linear-gradient(135deg, #4876FF, #722ED1);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* 诗人列表 */
+.poet-list {
+  padding: 8rpx 24rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.poet-card {
+  background: #fff;
+  border-radius: 24rpx;
+  padding: 28rpx 24rpx;
+  display: flex;
+  align-items: flex-start;
+  gap: 24rpx;
+  box-shadow: 0 4rpx 20rpx rgba(72, 118, 255, 0.08);
+  position: relative;
+}
+
+/* 头像 */
+.poet-avatar-wrap {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.poet-avatar {
+  font-size: 48rpx;
+  line-height: 1;
+}
+
+.poet-dynasty-badge {
+  position: absolute;
+  bottom: -10rpx;
+  right: -10rpx;
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 2rpx 10rpx;
+  font-size: 20rpx;
+  color: #555;
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.12);
+}
+
+/* 信息区域 */
+.poet-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.poet-header-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 4rpx;
+}
+
+.poet-name {
+  font-size: 38rpx;
+  font-weight: bold;
+  color: #1A1A2E;
+}
+
+.poet-title-tag {
+  font-size: 20rpx;
+  padding: 4rpx 14rpx;
+  border-radius: 20rpx;
+  border: 1.5rpx solid;
+  font-weight: 500;
+}
+
+.poet-years {
+  font-size: 22rpx;
+  color: #AAA;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.poet-bio-preview {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 14rpx;
+}
+
+.poet-works-row {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.poet-works-label {
+  font-size: 22rpx;
+  color: #999;
+  background: #F5F5F5;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+}
+
+.poet-works-count {
+  font-size: 24rpx;
+  font-weight: bold;
+}
+
+/* 箭头 */
+.arrow {
+  font-size: 40rpx;
+  color: #CCC;
+  font-weight: 300;
+  align-self: center;
+  margin-left: 4rpx;
+}

@@ -9,7 +9,18 @@
     "pages/chinese/chinese",
     "pages/chinese_quiz/chinese_quiz",
     "pages/chinese_dictation/chinese_dictation",
-    "pages/chinese_compose/chinese_compose"
+    "pages/chinese_compose/chinese_compose",
+    "pages/poem/poem",
+    "pages/poem_read/poem_read",
+    "pages/poem_puzzle/poem_puzzle",
+    "pages/poem_write/poem_write",
+    "pages/poem_chain/poem_chain",
+    "pages/poem_guess/poem_guess",
+    "pages/poets/poets",
+    "pages/poet_detail/poet_detail",
+    "pages/word_list/word_list",
+    "pages/classic_poems/classic_poems",
+    "pages/classic_poem_list/classic_poem_list"
   ],
   "window": {
     "backgroundTextStyle": "light",

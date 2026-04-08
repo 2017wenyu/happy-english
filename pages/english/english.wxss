@@ -82,6 +82,54 @@
   font-weight: 700;
 }
 
+.progress-stat-row {
+  display: flex;
+  align-items: center;
+}
+
+.progress-stat-clickable {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+}
+
+.progress-count-num {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #4876FF;
+  text-decoration: underline;
+  text-underline-offset: 4rpx;
+  text-decoration-style: dotted;
+}
+
+.progress-count-num.green {
+  color: #52C41A;
+}
+
+.progress-count-sep {
+  font-size: 28rpx;
+  color: #999;
+}
+
+.level-count-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 2rpx;
+}
+
+.level-count {
+  font-size: 28rpx;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3rpx;
+  text-decoration-style: dotted;
+}
+
+.level-count-sep {
+  font-size: 22rpx;
+}
+
+
 /* 段落标题 */
 .section-title {
   font-size: 30rpx;

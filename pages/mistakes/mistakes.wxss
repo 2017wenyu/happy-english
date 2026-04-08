@@ -186,6 +186,59 @@
   font-weight: 600;
 }
 
+.action-mastered {
+  flex: 1;
+  text-align: center;
+  font-size: 26rpx;
+  color: #52C41A;
+  background: #F6FFED;
+  padding: 16rpx 0;
+  border-radius: 12rpx;
+  font-weight: 600;
+  border: 2rpx solid #B7EB8F;
+}
+
+/* 古诗错题样式 */
+.poem-item {
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(114,46,209,0.08);
+}
+
+.poem-item .poem-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.poem-item .poem-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.poem-item .poem-author {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.poem-item .poem-content {
+  background: #F9F0FF;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin: 16rpx 0;
+}
+
+.poem-item .poem-content text {
+  display: block;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.8;
+  text-align: center;
+}
+
 
 /* 汉字错题专用样式 */
 .cn-word-item {

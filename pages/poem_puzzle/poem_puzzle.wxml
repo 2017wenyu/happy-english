@@ -1,0 +1,81 @@
+<!--pages/poem_puzzle/poem_puzzle.wxml-->
+<view class="container">
+  <!-- 游戏区域 -->
+  <block wx:if="{{!isComplete}}">
+    <view class="game-card" wx:if="{{currentPoem}}">
+      <!-- 进度 -->
+      <text class="progress-text">第 {{completedCount + 1}} / {{totalCount}} 首</text>
+      
+      <!-- 题目信息 -->
+      <view class="poem-header">
+        <text class="poem-title">{{currentPoem.title}}</text>
+        <text class="poem-author">[{{currentPoem.dynasty}}] {{currentPoem.author}}</text>
+      </view>
+      
+      <!-- 提示 -->
+      <view class="hint-box">
+        <text class="hint-icon">💡</text>
+        <text class="hint-text">按正确顺序点击诗句，拼接完整古诗</text>
+      </view>
+      
+      <!-- 用户答案区 -->
+      <view class="answer-area">
+        <text class="area-title">你的答案</text>
+        <view class="answer-lines">
+          <view 
+            class="answer-line {{isCorrect ? 'correct' : ''}} {{!isCorrect && userOrder.length === shuffledLines.length ? 'wrong' : ''}}"
+            wx:for="{{userOrder}}"
+            wx:key="index"
+            wx:for-item="lineIndex"
+            bindtap="deselectLine"
+            data-index="{{index}}"
+          >
+            <text>{{shuffledLines[lineIndex]}}</text>
+            <text class="remove-icon">✕</text>
+          </view>
+          <view class="answer-placeholder" wx:if="{{userOrder.length === 0}}">
+            <text>点击下方诗句进行拼接</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 可选诗句区 -->
+      <view class="options-area">
+        <text class="area-title">可选诗句</text>
+        <view class="option-lines">
+          <view 
+            class="option-line {{userOrder.includes(index) ? 'selected' : ''}}"
+            wx:for="{{shuffledLines}}"
+            wx:key="index"
+            bindtap="selectLine"
+            data-index="{{index}}"
+          >
+            <text>{{item}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 操作按钮 -->
+      <view class="action-btns">
+        <button class="action-btn btn-reset" bindtap="resetPuzzle">重置</button>
+        <button class="action-btn btn-skip" bindtap="skipPoem">跳过</button>
+        <button class="action-btn btn-mark" bindtap="markAsDontKnow">暂存</button>
+        <button class="action-btn btn-back" bindtap="goBack">返回</button>
+      </view>
+    </view>
+  </block>
+
+  <!-- 完成页 -->
+  <block wx:if="{{isComplete}}">
+    <view class="complete-card">
+      <text class="complete-icon">🎉</text>
+      <text class="complete-title">拼图挑战完成！</text>
+      <text class="complete-sub">已完成 {{totalCount}} 首古诗拼图</text>
+      
+      <view class="complete-btns">
+        <button class="complete-btn btn-restart" bindtap="restart">再玩一次</button>
+        <button class="complete-btn btn-back" bindtap="goBack">返回主页</button>
+      </view>
+    </view>
+  </block>
+</view>

@@ -112,5 +112,13 @@ Page({
     wx.navigateTo({
       url: `/pages/chinese_quiz/chinese_quiz?grade=${selectedGrade}&term=${selectedTerm}&mode=pinyin_to_word&all=1`
     })
+  },
+
+  goWordList(e) {
+    const filter = e.currentTarget.dataset.filter || 'all'
+    const { selectedGrade, selectedTerm } = this.data
+    wx.navigateTo({
+      url: `/pages/word_list/word_list?subject=chinese&filter=${filter}&grade=${selectedGrade}&term=${selectedTerm}`
+    })
   }
 })

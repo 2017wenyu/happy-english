@@ -1,0 +1,100 @@
+<!--pages/word_list/word_list.wxml-->
+<view class="container">
+
+  <!-- 顶部统计栏 -->
+  <view class="top-bar">
+    <text class="top-title">{{title}}</text>
+    <text class="top-count">共 {{totalCount}} 项</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-box" wx:if="{{isEmpty}}">
+    <text class="empty-icon">🌟</text>
+    <text class="empty-text">暂无内容</text>
+    <text class="empty-sub">{{filter === 'mastered' ? '还没有掌握的内容，继续加油！' : '暂无数据'}}</text>
+  </view>
+
+  <!-- ===== 古诗列表 ===== -->
+  <block wx:if="{{subject === 'poem' && !isEmpty}}">
+    <view
+      class="poem-card"
+      wx:for="{{list}}"
+      wx:key="id"
+      bindtap="goPoemDetail"
+      data-id="{{item.id}}"
+    >
+      <!-- 左侧掌握标记 -->
+      <view
+        class="mastered-dot {{item.isMastered ? 'dot-mastered' : 'dot-unmastered'}}"
+        catchtap="toggleMastered"
+        data-id="{{item.id}}"
+        data-mastered="{{item.isMastered}}"
+      >
+        <text class="dot-icon">{{item.isMastered ? '✓' : '○'}}</text>
+      </view>
+
+      <!-- 诗歌信息 -->
+      <view class="poem-info">
+        <view class="poem-header-row">
+          <text class="poem-title">{{item.title}}</text>
+          <text class="poem-author">[{{item.dynasty}}] {{item.author}}</text>
+        </view>
+        <text class="poem-preview">{{item.preview}}</text>
+      </view>
+
+      <!-- 掌握状态标签 -->
+      <view class="tag {{item.isMastered ? 'tag-green' : 'tag-gray'}}">
+        <text>{{item.isMastered ? '已掌握' : '学习中'}}</text>
+      </view>
+    </view>
+  </block>
+
+  <!-- ===== 生字列表 ===== -->
+  <block wx:if="{{subject === 'chinese' && !isEmpty}}">
+    <view class="chinese-grid">
+      <view
+        class="chinese-card {{item.isMastered ? 'chinese-mastered' : ''}}"
+        wx:for="{{list}}"
+        wx:key="id"
+        bindtap="toggleMastered"
+        data-id="{{item.id}}"
+        data-mastered="{{item.isMastered}}"
+      >
+        <text class="chinese-char">{{item.char}}</text>
+        <text class="chinese-pinyin">{{item.pinyin}}</text>
+        <view class="mastered-badge" wx:if="{{item.isMastered}}">
+          <text class="mastered-check">✓</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- ===== 英语单词列表 ===== -->
+  <block wx:if="{{subject === 'english' && !isEmpty}}">
+    <view
+      class="word-card {{item.isMastered ? 'word-mastered' : ''}}"
+      wx:for="{{list}}"
+      wx:key="id"
+    >
+      <view class="word-left">
+        <text class="word-en">{{item.word}}</text>
+        <text class="word-cn">{{item.translation}}</text>
+        <text class="word-phonetic" wx:if="{{item.phonetic}}">{{item.phonetic}}</text>
+      </view>
+      <view class="word-right">
+        <view class="level-tag" style="background: {{item.levelColor}}20; color: {{item.levelColor}}; border-color: {{item.levelColor}}">
+          <text>{{item.levelName}}</text>
+        </view>
+        <view
+          class="toggle-btn {{item.isMastered ? 'toggle-mastered' : 'toggle-unmastered'}}"
+          bindtap="toggleMastered"
+          data-id="{{item.id}}"
+          data-mastered="{{item.isMastered}}"
+        >
+          <text>{{item.isMastered ? '✓ 已掌握' : '+ 标记'}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+
+</view>

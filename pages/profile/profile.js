@@ -1,6 +1,7 @@
 // pages/profile/profile.js
 const wordsData = require('../../data/words')
 const chineseData = require('../../data/chinese_words')
+const poemsData = require('../../data/poems')
 
 // 各学科配置
 const SUBJECT_CONFIG = {
@@ -35,7 +36,7 @@ const SUBJECT_CONFIG = {
     gradient: 'linear-gradient(135deg, #9254DE, #722ED1)',
     totalLabel: '已掌握古诗',
     totalCount: 0,
-    masteredKey: 'masteredWords_poem',
+    masteredKey: 'mastered_poem',
     wrongKey: 'wrongWords_poem',
     studyKey: 'studyRecords_poem',
     hasLevelStats: false
@@ -135,6 +136,9 @@ Page({
     } else if (subject === 'chinese') {
       // 计算汉字总字数
       totalWords = chineseData.getTotalWordsCount()
+    } else if (subject === 'poem') {
+      // 计算古诗总数
+      totalWords = poemsData.getTotalPoemCount()
     }
 
     const totalMasteredPct = totalWords > 0

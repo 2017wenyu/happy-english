@@ -86,4 +86,33 @@
       </view>
     </view>
   </view>
+
+  <!-- 古诗错题列表 -->
+  <view class="word-list" wx:if="{{!isEmpty && subject === 'poem'}}">
+    <view
+      class="word-item poem-item"
+      wx:for="{{wrongWordList}}"
+      wx:key="id"
+    >
+      <view class="word-main">
+        <view class="word-left">
+          <view class="poem-info">
+            <text class="poem-title">{{item.title}}</text>
+            <text class="poem-author">[{{item.dynasty}}] {{item.author}}</text>
+          </view>
+        </view>
+        <view class="word-right">
+          <text class="wrong-count-label" wx:if="{{item.wrongCount > 1}}">错{{item.wrongCount}}次</text>
+        </view>
+      </view>
+      <view class="poem-content">
+        <text wx:for="{{item.content}}" wx:key="index" wx:for-item="line">{{line}}</text>
+      </view>
+      <view class="word-actions">
+        <view class="action-mastered" catchtap="markMastered" data-id="{{item.id}}">
+          ✓ 已掌握
+        </view>
+      </view>
+    </view>
+  </view>
 </view>

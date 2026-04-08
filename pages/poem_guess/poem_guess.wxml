@@ -1,0 +1,93 @@
+<!--pages/poem_guess/poem_guess.wxml-->
+<view class="container">
+  <!-- 游戏区域 -->
+  <block wx:if="{{!isComplete && currentQuestion}}">
+    <view class="game-card">
+      <!-- 进度 -->
+      <text class="progress-text">第 {{currentIndex + 1}} / {{totalCount}} 题</text>
+      
+      <!-- 题目 -->
+      <view class="question-box">
+        <block wx:if="{{currentQuestion.type === 'image'}}">
+          <text class="question-icon">🎨</text>
+          <text class="question-title">看图猜诗</text>
+          <text class="question-desc">{{currentQuestion.imageDesc}}</text>
+        </block>
+        <block wx:if="{{currentQuestion.type === 'desc'}}">
+          <text class="question-icon">💭</text>
+          <text class="question-title">根据描述猜诗</text>
+          <text class="question-desc">{{currentQuestion.desc}}</text>
+        </block>
+      </view>
+
+      <!-- 选项 -->
+      <view class="options-list">
+        <view 
+          class="option-item {{selectedAnswer === index ? (item.isCorrect ? 'correct' : 'wrong') : ''}} {{selectedAnswer !== null && item.isCorrect ? 'correct' : ''}}"
+          wx:for="{{currentQuestion.options}}"
+          wx:key="index"
+          bindtap="selectAnswer"
+          data-index="{{index}}"
+        >
+          <text class="option-title">{{item.title}}</text>
+          <text class="option-author">[{{item.dynasty}}] {{item.author}}</text>
+          <text class="result-icon" wx:if="{{selectedAnswer === index}}">{{item.isCorrect ? '✓' : '✕'}}</text>
+        </view>
+      </view>
+
+      <!-- 反馈 + 古诗展示 -->
+      <view class="feedback-box {{isCorrect ? 'feedback-correct' : 'feedback-wrong'}}" wx:if="{{selectedAnswer !== null}}">
+        <!-- 结果提示 -->
+        <view class="feedback-header">
+          <text class="feedback-icon">{{isCorrect ? '🎉' : '😅'}}</text>
+          <text class="feedback-text">{{isCorrect ? '回答正确！' : '回答错误'}}</text>
+        </view>
+
+        <!-- 正确古诗完整内容 -->
+        <view class="poem-reveal">
+          <view class="poem-reveal-header">
+            <text class="poem-reveal-title">{{currentQuestion.poem.title}}</text>
+            <text class="poem-reveal-author">[{{currentQuestion.poem.dynasty}}] {{currentQuestion.poem.author}}</text>
+          </view>
+          <view class="poem-reveal-content">
+            <text
+              class="poem-reveal-line"
+              wx:for="{{currentQuestion.poem.content}}"
+              wx:key="index"
+            >{{item}}</text>
+          </view>
+          <view class="poem-reveal-translation">
+            <text class="translation-label">📖 译文</text>
+            <text class="translation-text">{{currentQuestion.poem.translation}}</text>
+          </view>
+        </view>
+
+        <!-- 下一题按钮 -->
+        <view class="next-btn-wrap">
+          <button class="next-question-btn" bindtap="nextQuestion">
+            {{isLastQuestion ? '查看结果 🏆' : '下一题 →'}}
+          </button>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 完成页 -->
+  <block wx:if="{{isComplete}}">
+    <view class="complete-card">
+      <text class="complete-icon">🎉</text>
+      <text class="complete-title">挑战完成！</text>
+      <text class="complete-sub">答对 {{correctCount}} / {{totalCount}} 题</text>
+      
+      <view class="score-circle">
+        <text class="score-num">{{score}}</text>
+        <text class="score-unit">分</text>
+      </view>
+      
+      <view class="complete-btns">
+        <button class="complete-btn btn-restart" bindtap="restart">再玩一次</button>
+        <button class="complete-btn btn-back" bindtap="goBack">返回主页</button>
+      </view>
+    </view>
+  </block>
+</view>

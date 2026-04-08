@@ -103,22 +103,42 @@
 }
 
 .progress-info {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: 12rpx;
 }
 
-.progress-text {
-  font-size: 26rpx;
-  color: #666;
+.progress-stat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 12rpx;
 }
 
-.progress-pct {
-  font-size: 26rpx;
-  color: #F5222D;
-  font-weight: 600;
+.progress-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rpx;
 }
+
+.progress-stat-num {
+  font-size: 40rpx;
+  font-weight: bold;
+  text-decoration: underline;
+  text-underline-offset: 4rpx;
+  text-decoration-style: dotted;
+}
+
+.progress-stat-label {
+  font-size: 22rpx;
+  color: #999;
+}
+
+.progress-divider {
+  font-size: 30rpx;
+  color: #D9D9D9;
+  font-weight: bold;
+}
+
 
 /* 全部练习按钮 */
 .all-btn-wrap {

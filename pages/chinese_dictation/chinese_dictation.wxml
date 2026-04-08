@@ -27,8 +27,9 @@
           <text class="clue-value group-text">{{answered ? displayGroups.join('、') : '???'}}</text>
         </view>
       </view>
-      <button class="repeat-btn" bindtap="repeatSpeak">
-        🔊 重复播报{{showRepeatHint ? ' ✓' : ''}}
+      <button class="repeat-btn {{isPlaying ? 'playing' : ''}}" bindtap="repeatSpeak" disabled="{{isPlaying}}">
+        <text class="btn-icon">{{isPlaying ? '🔊' : '🔈'}}</text>
+        <text class="btn-text">{{isPlaying ? '播放中...' : '重复播报'}}</text>
       </button>
     </view>
 

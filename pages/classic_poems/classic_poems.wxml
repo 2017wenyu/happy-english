@@ -1,0 +1,58 @@
+<view class="container">
+  <!-- 顶部 banner -->
+  <view class="banner">
+    <text class="banner-title">经典拓展</text>
+    <text class="banner-sub">唐宋元经典诗词赏析</text>
+    <view class="banner-stats" wx:if="{{stats}}">
+      <text class="stats-item">{{stats.totalPoets}}位诗人</text>
+      <text class="stats-dot">·</text>
+      <text class="stats-item">{{stats.totalPoems}}首诗词</text>
+    </view>
+  </view>
+
+  <!-- 朝代筛选 -->
+  <scroll-view class="filter-scroll" scroll-x enhanced show-scrollbar="false">
+    <view class="filter-row">
+      <view
+        wx:for="{{dynasties}}"
+        wx:key="key"
+        class="filter-tag {{dynastyFilter === item.key ? 'active' : ''}}"
+        bindtap="filterByDynasty"
+        data-dynasty="{{item.key}}"
+      >{{item.name}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 诗人列表 -->
+  <view class="poet-list">
+    <view
+      wx:for="{{filteredPoets}}"
+      wx:key="id"
+      class="poet-card"
+      bindtap="goPoetPoems"
+      data-id="{{item.id}}"
+    >
+      <!-- 左侧：头像区域 -->
+      <view class="poet-avatar-wrap" style="background: {{item.gradient}}">
+        <text class="poet-avatar">{{item.avatar}}</text>
+        <view class="poet-dynasty-badge">{{item.dynasty}}</view>
+      </view>
+
+      <!-- 右侧：基本信息 -->
+      <view class="poet-info">
+        <view class="poet-header-row">
+          <text class="poet-name">{{item.name}}</text>
+          <text class="poet-title-tag" style="color: {{item.color}}; border-color: {{item.color}}40; background: {{item.color}}10">{{item.title}}</text>
+        </view>
+        <text class="poet-bio-preview">{{item.bio}}</text>
+        <view class="poet-works-row">
+          <text class="poet-works-label">收录作品</text>
+          <text class="poet-works-count" style="color: {{item.color}}">{{item.workCount}}首</text>
+        </view>
+      </view>
+
+      <!-- 右箭头 -->
+      <view class="arrow">›</view>
+    </view>
+  </view>
+</view>

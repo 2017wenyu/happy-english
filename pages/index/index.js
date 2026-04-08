@@ -25,12 +25,12 @@ Page({
       {
         key: 'poem',
         name: '古诗学习',
-        desc: '小学必背古诗词',
+        desc: '小学必背古诗词75+80首',
         emoji: '📜',
         color: '#722ED1',
         gradient: 'linear-gradient(135deg, #722ED1, #B37FEB)',
-        tag: '朗读 · 背诵 · 理解',
-        available: false
+        tag: '朗读 · 拼图 · 默写',
+        available: true
       },
       {
         key: 'idiom',
@@ -53,6 +53,7 @@ Page({
       const routes = {
         english: '/pages/english/english',
         chinese: '/pages/chinese/chinese',
+        poem: '/pages/poem/poem',
       }
       const url = routes[key]
       if (url) {

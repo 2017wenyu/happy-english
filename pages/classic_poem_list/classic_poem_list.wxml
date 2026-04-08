@@ -1,0 +1,58 @@
+<view class="container">
+  <!-- 顶部诗人信息 -->
+  <view class="poet-header" wx:if="{{poet}}" style="background: {{poet.gradient}}">
+    <view class="poet-avatar-wrap">
+      <text class="poet-avatar">{{poet.avatar}}</text>
+    </view>
+    <view class="poet-info">
+      <text class="poet-name">{{poet.name}}</text>
+      <text class="poet-title" wx:if="{{poet.title}}">{{poet.title}}</text>
+      <text class="poet-dynasty" wx:if="{{poet.dynasty}}">{{poet.dynasty}}代</text>
+    </view>
+    <view class="poem-count">
+      <text class="count-num">{{poems.length}}</text>
+      <text class="count-label">首</text>
+    </view>
+  </view>
+
+  <!-- 诗词列表 -->
+  <view class="poem-list">
+    <view
+      wx:for="{{poems}}"
+      wx:key="id"
+      class="poem-card {{item.isMastered ? 'mastered' : ''}}"
+      bindtap="goPoemDetail"
+      data-id="{{item.id}}"
+    >
+      <!-- 序号 -->
+      <view class="poem-index">{{index + 1}}</view>
+
+      <!-- 内容 -->
+      <view class="poem-body">
+        <view class="poem-title-row">
+          <text class="poem-title">{{item.title}}</text>
+          <text wx:if="{{item.isCi}}" class="poem-type-tag ci">词</text>
+          <text wx:else class="poem-type-tag shi">诗</text>
+        </view>
+        <text class="poem-preview">{{item.preview}}</text>
+        <text class="poem-info">{{item.dynasty}}·{{item.author}} | {{item.content.length}}句</text>
+      </view>
+
+      <!-- 掌握状态 -->
+      <view
+        class="mastered-btn {{item.isMastered ? 'done' : ''}}"
+        catchtap="toggleMastered"
+        data-id="{{item.id}}"
+        data-mastered="{{item.isMastered}}"
+      >
+        <text>{{item.isMastered ? '✓' : '○'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{poems.length === 0}}">
+    <text class="empty-icon">📜</text>
+    <text class="empty-text">暂无诗词数据</text>
+  </view>
+</view>

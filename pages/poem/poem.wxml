@@ -1,0 +1,118 @@
+<!--pages/poem/poem.wxml-->
+<view class="container">
+  <!-- 顶部选择区 -->
+  <view class="header">
+    <text class="header-title">📜 古诗学习</text>
+    
+    <!-- 年级选择 -->
+    <view class="grade-tabs">
+      <view
+        class="grade-tab {{selectedGrade === item.key ? 'grade-active' : ''}}"
+        wx:for="{{grades}}"
+        wx:key="key"
+        bindtap="selectGrade"
+        data-grade="{{item.key}}"
+      >
+        {{item.short}}
+      </view>
+    </view>
+    
+    <!-- 学期选择 -->
+    <view class="term-tabs">
+      <view
+        class="term-tab {{selectedTerm === item.key ? 'term-active' : ''}}"
+        wx:for="{{terms}}"
+        wx:key="key"
+        bindtap="selectTerm"
+        data-term="{{item.key}}"
+      >
+        {{item.short}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 统计卡片 -->
+  <view class="stats-card">
+    <view class="stats-row">
+      <view class="stat-item stat-clickable" bindtap="goWordList" data-filter="all">
+        <text class="stat-num purple">{{poemCount}}</text>
+        <text class="stat-label">本册古诗</text>
+      </view>
+      <view class="stat-item stat-clickable" bindtap="goWordList" data-filter="mastered">
+        <text class="stat-num green">{{masteredCount}}</text>
+        <text class="stat-label">已掌握</text>
+      </view>
+      <view class="stat-item">
+        <text class="stat-num orange">{{masteredPct}}%</text>
+        <text class="stat-label">掌握率</text>
+      </view>
+    </view>
+    <!-- 进度条 -->
+    <view class="progress-wrap">
+      <progress percent="{{masteredPct}}" stroke-width="12" 
+        activeColor="#722ED1" backgroundColor="#F0E6FF" active border-radius="8" />
+    </view>
+  </view>
+
+  <!-- 诗人馆入口 -->
+  <view class="poets-entry" bindtap="goPoets">
+    <view class="poets-entry-left">
+      <view class="poets-entry-icon-wrap">
+        <text class="poets-entry-icon">🖋️</text>
+      </view>
+      <view>
+        <text class="poets-entry-title">诗人馆</text>
+        <text class="poets-entry-sub">认识李白、杜甫、苏轼、毛泽东等33位著名诗人</text>
+      </view>
+    </view>
+    <text class="poets-entry-arrow">›</text>
+  </view>
+
+  <!-- 经典拓展入口 -->
+  <view class="classic-entry" bindtap="goClassic">
+    <view class="classic-entry-left">
+      <view class="classic-entry-icon-wrap">
+        <text class="classic-entry-icon">📚</text>
+      </view>
+      <view>
+        <text class="classic-entry-title">经典拓展</text>
+        <text class="classic-entry-sub">唐宋元经典诗词赏析，独立于必背古诗词</text>
+      </view>
+    </view>
+    <text class="classic-entry-arrow">›</text>
+  </view>
+
+  <!-- 玩法入口 -->
+  <view class="games-section">
+    <text class="section-title">🎮 趣味玩法</text>
+    <view class="games-grid">
+      <view
+        class="game-card"
+        wx:for="{{games}}"
+        wx:key="key"
+        bindtap="goGame"
+        data-game="{{item.key}}"
+        style="border-left-color: {{item.color}}"
+      >
+        <text class="game-icon">{{item.icon}}</text>
+        <view class="game-info">
+          <text class="game-name">{{item.name}}</text>
+          <text class="game-desc">{{item.desc}}</text>
+        </view>
+        <text class="game-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 错题本入口 -->
+  <view class="mistake-entry" bindtap="goMistakes">
+    <view class="mistake-left">
+      <text class="mistake-icon">📝</text>
+      <view>
+        <text class="mistake-title">古诗错题本</text>
+        <text class="mistake-sub">查看错题，巩固复习</text>
+      </view>
+    </view>
+    <text class="mistake-arrow">›</text>
+  </view>
+</view>
